@@ -4,6 +4,7 @@ class Cajas extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct(); $this->load->model("Netix_model");
+
 	}
 
 	public function index(){
