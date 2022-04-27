@@ -1,7 +1,7 @@
 <div id="netix_datos">
     <div class="netix_header">
         <div class="row netix_header_title">
-            <div class="col-md-8 col-xs-12"> <h5>ATENCIÓN AL CLIENTE</h5> </div>
+            <div class="col-md-8 col-xs-12"> <h5>ATENCIÓN AL MARRANO x4</h5> </div>
         </div>
         <div class="row">
             <div class="col-md-8 netix_header_button">
