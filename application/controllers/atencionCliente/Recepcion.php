@@ -24,6 +24,9 @@ class Recepcion extends CI_Controller{
 
     }
     public function agregar(){
+        echo "gaferas";
+
+
 
     }
     public function eliminar(){
