@@ -18,5 +18,4 @@ class Recepcion extends CI_Controller{
         }
     }
 
-
 }
