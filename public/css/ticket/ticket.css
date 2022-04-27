@@ -1,0 +1,92 @@
+@font-face {
+    font-family: "Arial";
+    font-style: normal;
+    font-weight: normal;
+    src: local("?"), url("Arial.woff") format("woff"), url("Arial.ttf") format("truetype");
+}
+body{margin-left:0px;}
+.Cabecera0{
+    font-family:"Arial";
+    font-size:16px;
+
+}
+.Cabecera{
+    font-family:"Arial";
+    font-size:14px;
+
+}
+.Cabecera2{
+    font-family:"Arial";
+    font-size:11px;
+}
+.Cabecera2-numeros{
+    font-family:"Tahoma","Arial";
+    font-size:11px;
+}
+.Cabecera2-numeros1{
+    font-family:"Arial";
+    font-size:11px;
+}
+.Cabecera3{
+    font-family:"Arial";
+    font-size:12px;
+}
+.InfoVenta{
+    font-family:"Arial";
+    font-size:20px;
+    font-weight: bold;
+
+}
+.InfoVer{
+    font-family:"Arial";
+    font-size:11px;
+    /*font-weight: bold;*/
+}
+
+.Total{
+    font-family:"Arial";
+    font-size:11px;
+
+}
+.Detallecab{
+    font-family:"Arial";
+    font-size:11px;
+}
+.Detalle{
+    font-family:"Arial";
+    font-size:11px;
+}
+.Detallenumeritos{
+    font-family:"Tahoma","Arial";
+    font-size:11px;
+}
+.numeritos{
+    font-family:"Tahoma","Arial";
+    font-size:14px;
+}
+.Detallenumeritos1{
+    font-family:"Arial";
+    font-size:11px;
+}
+.numeritos1{
+    font-family:"Arial";
+    font-size:14px;
+}
+
+/*MATRICIAL*/
+.footer{
+    font-family:"Arial";
+    font-size:11px;
+}
+
+.Direccion {
+    font-size:10px;
+}
+.DetalleM{
+    font-family:"Arial";
+    font-size:11px;
+
+}
+.Linea {
+    font-size:11px;
+}

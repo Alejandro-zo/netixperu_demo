@@ -1,0 +1,492 @@
+.netix_portada{
+	padding-top:10%;
+}
+.netix_portada>div{
+	padding: 30px;
+}
+.netix_title{
+	color:#fff;
+	font-size:35px;
+	font-weight:bold;
+	padding-top:10px;
+}
+.netix_title>span{
+	font-size:80px;
+}
+.netix_subtitle{color:#fff;}
+.netix_login{
+	background:#fff;
+	padding-top:10px;
+	text-align:center;
+	height: 100vh;
+	margin: 0px;
+	padding: 0px;
+}
+
+.netix_titulologin{
+	margin-top: -100px;
+	font-size:25px;
+	font-weight:bold;
+	color: #fff;
+}
+.netix_titulologin>span{font-size:60px;}
+
+.netix_administrar{
+	font-size: 17px;
+	font-weight: bold;
+	margin-top: 70px;
+}
+.netix_administrar>span{
+	font-size: 30px;
+}
+
+.netix_cabecera{
+	font-weight:bold;
+	padding:0px 10px;
+	padding-top:12.5px;
+	font-size:16px;
+	color: #fff;
+}
+
+.netix_formlogin{
+	margin-top: 40px;
+	padding: 20px 20px;
+}
+
+.netix_formlogin>label{
+	font-size:15px; color:#888888;
+}
+
+.netix_profile{
+	color:#888888 !important;
+	padding-top:10px !important;
+	padding-bottom:6.5px !important;
+}
+
+.netix_card{
+	border:1px solid #e7eaec;
+	margin-bottom:0px;
+	background-color: #fff;
+	border-radius: .25rem;
+}
+
+.netix_card_view{
+	border:1px solid transparent;
+	box-shadow: 0 3px 7px 0 #a8a8a8;
+	margin-bottom: 10px;
+}
+.netix_card_view>.card_title{
+	background: #f8f8f9;
+}
+.card_title>h4{
+	margin: 0px !important;
+	padding: 25px 10px 10px 10px;
+	font-size:20px;
+}
+.card_title>p{
+	padding: 0px 20px;
+}
+.card_title>a{
+	border: 8px solid #fff;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	display: inline-block;
+	margin-bottom: -55px;
+}
+.card_title>a>img{
+	height: 112px;
+	width: 112px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+.netix_card_view>.card_content{
+	margin-top: 40px;
+	padding: 10px 20px;
+}
+.netix_card_view>.card_content_contact{
+	padding: 10px 20px;
+}
+
+.netix_header{
+	border-bottom: 1px solid #e7eaec;
+	padding:10px 20px 5px 20px;
+	background: #fff;
+}
+.netix_header_title{
+	margin-top: 50px ;margin-bottom: 6px;
+	font-size:15px;
+}
+.netix_header_title>div>h5{
+	font-size: 15px; font-weight: bold;
+}
+.netix_header_button>button{
+	padding: 5px 9px !important;
+	line-height: 21px !important;
+	font-size: 13.5px !important;
+}
+.netix_row{
+	margin: 0px 0px;
+	padding: 0px;
+}
+.netix_body{
+	border-top: 2px solid #e7eaec;
+	margin: 0px 20px;
+	padding: 20px 20px 0px;
+	background: #fff;
+}
+.netix_body_row{
+	border-top: 2px solid #e7eaec;
+	margin: 0px 20px;
+	padding: 10px;
+	background: #fff;
+}
+.netix_body_card{
+	margin: 0px 20px;
+}
+.netix_card_image{
+	border: 1px solid #e7eaec;
+	border-top: 2px solid #e7eaec;
+}
+@media (max-width:500px){
+	.netix_body{padding: 0px; margin: 0px 10px}
+	.netix_body_row{padding: 10px; margin: 0px 5px}
+}
+.netix_form{
+	padding:0px 15px;
+}
+.datepicker[readonly]{
+  	background-color: #fff;
+}
+
+.netix_cargando{
+	padding-top: 8% !important;
+	text-align:center;
+	width: 100%;
+}
+.netix_cargando>img{
+	width: 100px !important;
+}
+.netix_cargando>h5{
+	padding-bottom:15px !important;
+}
+
+.netix_radio{
+	height: 20px;
+	width: 20px;
+}
+
+.netix_anulado{
+	color:#ed5565 !important;
+	text-decoration:line-through !important;
+}
+
+.check-netix{
+	height: 16px;
+	width: 16px;
+}
+
+.netix_radio_1{
+	padding:5px;
+	margin-bottom: 10px;
+	border-top:1px solid #E6E9ED;
+	border-bottom:1px solid #E6E9ED;
+}
+
+.netix_opcion{
+	color:#06B8AC;
+	padding:7px;
+	margin:0px 5px;
+	cursor: pointer;
+}
+
+.netix_precios{
+	border: 1px solid #f2f2f2;
+	text-align: center;
+}
+
+.netix-productos{
+	box-shadow:2px 3px #f2f2f2;
+	border:1px solid #f2f2f2;
+}
+
+.netix-input{
+	width: 100%;
+	height: 30px;
+	padding: 6px 6px !important;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.netix-input[disabled],
+.netix-input[readonly]{
+  background-color: #f2f2f2;
+}
+
+.netix-input:hover,.netix-input:active{
+	border: 1px solid #06B8AC;
+}
+
+.number::-webkit-outer-spin-button,.number::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.number{
+	-moz-appearance:textfield;
+}
+
+.line-danger{
+	border-color: #ec4758 !important;
+}
+
+.line-success{
+	border-color: #1ab394 !important;
+}
+
+.netix-money-success, .netix-money-success:focus{
+	border:2px solid #1ab394;
+	font-size:18px;
+}
+
+.netix-money-error{
+	border:2px solid #ec4758;
+	font-size:18px;
+}
+
+.netix-money-default{
+	border:2px solid #ccc;
+	font-size:15px;
+}
+
+.netix-linea{
+	width:100%;height:3px;background:#f3f3f3;margin:10px 0px;
+}
+
+.netix_caja_alert{
+	font-size:25px; text-align: center;
+}
+
+.netix-input-inv{
+	border:1px solid #fff;
+	padding:3px;
+	border-radius:3px;
+	width: 100%;
+}
+.netix-input-inv:hover,.netix-input-inv:focus{
+	border:1px solid #06B8AC;
+}
+.modal-netix-titulo{
+	background:#2f4050;color:#fff;
+}
+.modal-netix-titulo>button{
+	font-size:30px;margin-bottom:0px;color:#fff !important;
+}
+.netix-item-mas{
+	background:#2f4050;color:#fff;cursor:pointer;font-weight:bold;
+}
+
+#ajax-overlay{
+	position: absolute;
+	color: #36404e;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.8);
+	text-align: center;
+	z-index: 9999
+}
+
+#ajax-overlay-body{
+	position: absolute;
+	top: 30%;
+	width: 100%;
+	text-align: center;
+}
+
+#ajax-overlay-body>img{
+	padding: 0px 80px 30px 80px;
+	background: rgba(255, 255, 255, 1);
+}
+
+#ajax-overlay-body>span{
+	font-size:16px;
+	font-weight: bold;
+}
+
+/* IMPRIMIR EN WEB NETIX */
+
+/* @media print {
+	.top_nav, .nav_menu, .nav , #netix_datos {
+		display: none !important;
+	}
+	#netix-print, #netix-print * {
+		display: block !important;
+	}
+	#netix-print {
+		position: absolute;
+		left: 0px !important;
+		top: 0px !important;
+	}
+} */
+
+.netix_checkbox{
+	display: block; position: relative; padding-left: 25px; margin-bottom: 2px; cursor: pointer; font-size: 14px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.netix_checkbox>input{
+	position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0;
+}
+.check{
+	position: absolute;top: 0; left: 0; height: 20px; width: 20px; border: 1px solid #e5e6e7;
+}
+.netix_checkbox input:checked ~ .check {
+	background-color: #18a689;
+}
+.check:after {
+  	content: ""; position: absolute; display: none;
+}
+.netix_checkbox input:checked ~ .check:after {
+	display: block;
+}
+.netix_checkbox .check:after {
+	left: 7px; top: 3px; width: 5px; height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.p-9{
+	padding-top:9px;
+}
+.p-5{
+	padding-top:5px;
+}
+.p-3{
+	padding-top:3px;
+}
+
+.netix_cpe{
+	font-size:18px;
+	padding:10px;
+	margin-bottom:0px;
+	border-radius:0px;
+	border:none;
+	text-align:center;
+}
+
+
+.scroll-netix::-webkit-scrollbar {
+    width: 8px;     /* Tamaño del scroll en vertical */
+    height: 8px;    /* Tamaño del scroll en horizontal */
+}
+
+.scroll-netix::-webkit-scrollbar-thumb {
+    background: #2f4050;
+    border-radius: 0px;
+}
+
+/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+.scroll-netix::-webkit-scrollbar-thumb:hover {
+    background: #293846;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambiamos el fondo cuando esté en active */
+.scroll-netix::-webkit-scrollbar-thumb:active {
+    background-color: #293846;
+}
+
+/* Ponemos un color de fondo y redondeamos las esquinas del track */
+.scroll-netix::-webkit-scrollbar-track {
+    background: #2f4050;
+    border-radius: 0px;
+}
+
+/* Cambiamos el fondo cuando esté en active o hover */
+.scroll-netix::-webkit-scrollbar-track:hover,
+.scroll-netix::-webkit-scrollbar-track:active {
+  background: #293846;
+}
+
+.scroll-netix-view::-webkit-scrollbar {
+    width: 8px;     /* Tamaño del scroll en vertical */
+    height: 8px;    /* Tamaño del scroll en horizontal */
+}
+.scroll-netix-view::-webkit-scrollbar-thumb {
+    background: #999c9e;
+    border-radius: 0px;
+}
+
+
+/* ESTILOS NETIX PERÚ - RESTAURANTE */
+
+.netix-mesas{
+	padding-right:3px;padding-left:3px;cursor: pointer;
+}
+.netix-libre{
+	background:#f2f2f2;color:#36404e;padding:5px;text-align:center;margin-bottom: 5px;
+}
+.netix-libre:hover{
+	background: #ccc;
+}
+.netix-ocupada{
+	background:#d9534f;color:#fff;padding:5px;text-align:center;margin-bottom: 5px;
+}
+.netix-ocupada:hover{
+	background: #c9302c;
+}
+.netix-reservada{
+	background:#eea236;color:#fff;padding:5px;text-align:center;margin-bottom: 5px;
+}
+.netix-reservada:hover{
+	background: #ec971f;
+}
+.netix-avancecta{
+	background:#06B8AC;color:#fff;padding:5px;text-align:center;margin-bottom: 5px;
+}
+.netix-avancecta:hover{
+	background: #13a89e;
+}
+.mesa-activa{
+	background:#595ad4; color:#fff;
+}
+
+.netix-restaurante-table{
+	padding:8px !important;font-weight:bold; cursor:pointer;
+}
+
+.netix_big_icon{
+	font-size: 160px !important;
+	color: #e5e6e7;
+}
+
+/* Estilos input file cargar imagenes y archivos */
+
+input[type="file"]#foto {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+label[for="foto"] {
+	width: 100% !important;
+	color: #676a6c;
+	line-height: 2.6em;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+	background-color: #e7eaec;
+	display: inline-block;
+	border-radius: 3px;
+	cursor: pointer;
+}
