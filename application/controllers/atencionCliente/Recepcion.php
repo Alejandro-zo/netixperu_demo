@@ -50,8 +50,9 @@ inner join public.personas e on r.codempleado = e.codpersona where (UPPER(p.razo
         if ($this->input->is_ajax_request()) {
             if (isset($_SESSION["netix_usuario"])) {
                 $empleados = $this->db->query("select persona.codpersona, persona.razonsocial from public.personas as persona inner join public.empleados as empleado on(persona.codpersona=empleado.codpersona) where empleado.estado=1")->result_array();
+                $area = $this->db->query("select a.codarea, a.descripcion from public.areas a where a.estado =1")->result_array();
                 //$cargos = $this->db->query("select * from public.cargos where estado=1")->result_array();
-                $this->load->view("atencionCliente/recepcion/nuevo",compact("empleados"));
+                $this->load->view("atencionCliente/recepcion/nuevo",compact("empleados","area"));
             }else{
                 $this->load->view("netix/505");
             }

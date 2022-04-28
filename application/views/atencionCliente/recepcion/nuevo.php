@@ -17,12 +17,16 @@
                     ?>
                 </select>
             </div>
-            <div class="col-md-4 col-xs-12">
-                <label>NRO DE DNI</label>
-                <input type="text" name="documento" v-model.trim="campos.documento" class="form-control" required autocomplete="off" placeholder="N° DNI . . ." />
-            </div>
-            <div class="col-md-2 col-xs-12" style="padding-top:23px;">
-                <button type="button" class="btn btn-success btn-block btn-consultar" v-on:click="netix_consultar()"> <i class="fa fa-search"></i> </button>
+            <div class="col-md-6 col-xs-12">
+                <label>SELECCIONAR EMPLEADO</label>
+                <select class="form-control" name="codempleado" v-model="campos.codempleado" required>
+                    <option value="">SELECCIONE</option>
+                    <?php
+                    foreach ($empleados as $key => $value) { ?>
+                        <option value="<?php echo $value['codpersona'];?>"><?php echo $value["razonsocial"];?></option>
+                    <?php }
+                    ?>
+                </select>
             </div>
         </div>
 
@@ -32,7 +36,7 @@
                 <select class="form-control" name="codarea" v-model="campos.codarea" required>
                     <option value="">SELECCIONE</option>
                     <?php 
-                        foreach ($areas as $key => $value) { ?>
+                        foreach ($area as $key => $value) { ?>
                             <option value="<?php echo $value['codarea'];?>"><?php echo $value["descripcion"];?></option>
                         <?php }
                     ?>
