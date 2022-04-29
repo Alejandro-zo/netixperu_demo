@@ -1,10 +1,14 @@
-<div id="netix_form"><br>
-	<form id="formulario" class="form-horizontal" v-on:submit.prevent="netix_guardar()"> 
+<div id="netix_form">
+	<form id="formulario" class="form-horizontal" v-on:submit.prevent="netix_guardar()">
+		<!-- ES PARA HACER EL REGISTRO DEL CODIGO-->
+		<input type="hidden" name="codregistro" v-model="campos.codregistro">
+		<input type="hidden" name="codsociotipo" v-model="campos.codsociotipo">
+
 		<!--DATOS DEL EMPLEADO QUE ATIENDE-->
 	    <div class="row form-group">
 	    	<div class="col-xs-12" style="display: flex; align-items: center; justify-content: center; ">
 	    		<label style="text-decoration: underline; font-size: 15px;">DATOS DEL EMPLEADO</label>
-	    	</div><br><br>
+	    	</div><br><br>	
 
             <div class="col-xs-12">
                 <label>SELECCIONAR EMPLEADO</label>
@@ -17,8 +21,7 @@
                     ?>
                 </select>
             </div>
-        </div>
-
+        </div>	    
         <!--DATOS DEL CLIENTE-->
 	    <div class="row form-group">
 	    	<div class="col-xs-12" style="display: flex; align-items: center; justify-content: center; ">
@@ -44,7 +47,6 @@
 		    	<button type="button" class="btn btn-success btn-block btn-consultar" v-on:click="netix_consultar();"> <i class="fa fa-search"></i> </button>
 		    </div>
 	    </div>
-
 	    <div class="row form-group">
 	    	<div class="col-xs-12">
                 <label>NOMBRES COMPLETOS</label>
@@ -68,7 +70,6 @@
 	            <input type="number" class="form-control" name="telefono" v-model="campos.telefono" placeholder="Telf./Cel." autocomplete="off">
 	        </div>
 	    </div>
-	    
 	    <div class="row form-group">
 	        <div class="col-md-6">
 	            <label>DISTRITO</label>
@@ -82,8 +83,7 @@
 	                <option value="">SELECCIONE</option>
 	            </select>
 	        </div>
-	    </div>
-
+	    </div>	    	    	    
 	    <div class="row form-group"> 
             <div class="col-md-6">
 	            <label>DEPARTAMENTO</label>
@@ -97,37 +97,38 @@
 	            </select>
 	        </div>
 
-	        <div class="col-xs-6">
+	        <div class="col-md-6">
 	        	<label >FECHA DE RECEPCIÓN</label>
 	            <input type="date" class="form-control input-sm datepicker" id="fechadesde" value="<?php echo date('Y-m-d');?>" autocomplete="off">
 	        </div>
 	    </div>
+
 
         <div class="row form-group">
         	<div class="col-xs-12" style="display: flex; align-items: center; justify-content: center; ">
         		<label style="text-decoration: underline; font-size: 15px;">DATOS DEL PRODUCTO</label>
         	</div><br><br>
 
-            <div class="col-xs-4">
-                <label>PRODUCTO</label>
-                <input type="text" class="form-control" name="descripcion" v-model="#" placeholder="Producto..." autocomplete="off">
-            </div>
+            <div class="col-md-4">
+	            <label>PRODUCTO</label>
+	            <input type="text" class="form-control" name="descripcion" v-model="campos.telefono" placeholder="Producto..." autocomplete="off">
+	        </div>
 
-            <div class="col-xs-4">
-                <label>MARCA</label>
-                <input type="text" class="form-control" name="marca" v-model="#" placeholder="Marca..." autocomplete="off">
-            </div>
+	        <div class="col-md-4">
+	            <label>MARCA</label>
+	            <input type="text" class="form-control" name="marca" v-model="campos.telefono" placeholder="Marca..." autocomplete="off">
+	        </div>
 
-            <div class="col-xs-4">
-                <label>MODELO</label>
-                <input type="text" class="form-control" name="modelo" v-model="#" placeholder="Modelo..." autocomplete="off">
-            </div>
+	        <div class="col-md-4">
+	            <label>MODELO</label>
+	            <input type="text" class="form-control" name="modelo" v-model="campos.telefono" placeholder="Modelo..." autocomplete="off">
+	        </div>
         </div>
 
-        <div class="row form-group">
+		<div class="row form-group">
             <div class="col-xs-12">
                 <label>DESCRIPCIÓN DEL PROBLEMA</label>
-                <input type="text" style="height:50px;" class="form-control" name="descripcion" v-model="#" placeholder="Problema..." autocomplete="off">
+                <input type="text" style="height:50px;" class="form-control" name="descripcion" v-model="campos.telefono" placeholder="Problema..." autocomplete="off">
             </div>
         </div>
 
@@ -139,12 +140,13 @@
             </div>
         </div>
 		-->
-		
+
 		<div class="ln_solid"></div>
 		<div class="form-group" align="center">
 			<button type="submit" class="btn btn-success" v-bind:disabled="estado==1"> <i class="fa fa-save"></i> GUARDAR </button>
-			<button type="button" class="btn btn-danger" v-on:click="netix_cerrar()">CERRAR</button>
+			<button type="button" class="btn btn-danger" v-on:click="netix_cerrar()"> <i class="fa fa-circle-o"></i> CERRAR</button>
 		</div>
-	</form> 
-</div>	 
+	</form>
+</div>
 
+<script src="<?php echo base_url();?>netix/netix_personas.js"></script>
