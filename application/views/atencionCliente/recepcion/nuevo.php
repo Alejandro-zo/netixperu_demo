@@ -6,18 +6,7 @@
 	    		<label style="text-decoration: underline; font-size: 15px;">DATOS DEL EMPLEADO</label>
 	    	</div><br><br>
 
-	    	<div class="col-md-6 col-xs-12">
-                <label>SELECCIONAR SUCURSAL</label>
-                <select class="form-control" name="codsucursal" v-model="campos.codsucursal" required>
-                    <option value="">SELECCIONE</option>
-                    <?php 
-                        foreach ($sucursales as $key => $value) { ?>
-                            <option value="<?php echo $value['codsucursal'];?>"><?php echo $value["descripcion"];?></option>
-                        <?php }
-                    ?>
-                </select>
-            </div>
-            <div class="col-md-6 col-xs-12">
+            <div class="col-xs-12">
                 <label>SELECCIONAR EMPLEADO</label>
                 <select class="form-control" name="codempleado" v-model="campos.codempleado" required>
                     <option value="">SELECCIONE</option>
@@ -27,37 +16,6 @@
                     <?php }
                     ?>
                 </select>
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-md-6 col-xs-12">
-                <label>SELECCIONAR AREA</label>
-                <select class="form-control" name="codarea" v-model="campos.codarea" required>
-                    <option value="">SELECCIONE</option>
-                    <?php 
-                        foreach ($area as $key => $value) { ?>
-                            <option value="<?php echo $value['codarea'];?>"><?php echo $value["descripcion"];?></option>
-                        <?php }
-                    ?>
-                </select>
-            </div>
-            <div class="col-md-6 col-xs-12">
-                <label>SELECCIONAR CARGO</label>
-                <select class="form-control" name="codcargo" v-model="campos.codcargo" required>
-                    <option value="">SELECCIONE</option>
-                    <?php 
-                        foreach ($cargos as $key => $value) { ?>
-                            <option value="<?php echo $value['codcargo'];?>"><?php echo $value["descripcion"];?></option>
-                        <?php }
-                    ?>
-                </select>
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-xs-12">
-                <label>NOMBRES COMPLETOS</label>
-                <input type="text" name="razonsocial" v-model.trim="campos.razonsocial" class="form-control" required autocomplete="off" placeholder="Nombres completos . . ." />
             </div>
         </div>
 
@@ -140,7 +98,7 @@
 	        </div>
 
 	        <div class="col-xs-6">
-	        	<label >FECHA</label>
+	        	<label >FECHA DE RECEPCIÓN</label>
 	            <input type="date" class="form-control input-sm datepicker" id="fechadesde" value="<?php echo date('Y-m-d');?>" autocomplete="off">
 	        </div>
 	    </div>
@@ -173,13 +131,15 @@
             </div>
         </div>
 
+        <!--
         <div class="row form-group">
             <div class="col-xs-12">
                 <label>OBSERVACIONES</label>
                 <input type="text" style="height:50px;" class="form-control" name="observacion" v-model="#" placeholder="Observación..." autocomplete="off">
             </div>
         </div>
-
+		-->
+		
 		<div class="ln_solid"></div>
 		<div class="form-group" align="center">
 			<button type="submit" class="btn btn-success" v-bind:disabled="estado==1"> <i class="fa fa-save"></i> GUARDAR </button>
