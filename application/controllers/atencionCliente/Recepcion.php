@@ -22,12 +22,8 @@ class Recepcion extends CI_Controller{
             $this->request = json_decode(file_get_contents('php://input'));
             $limit = 8; $offset = $this->request->pagina * $limit - $limit;
 
-            $lista = $this->db->query("Select p.razonsocial  as nombrepersona, e.razonsocial  as nombreempleado,r.*
-from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona 
-inner join public.personas e on r.codempleado = e.codpersona offset ".$offset." limit ".$limit)->result_array();
-
-            $total = $this->db->query("select count(*) as total from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona 
-inner join public.personas e on r.codempleado = e.codpersona where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%')) and p.estado=1")->result_array();
+            $lista = $this->db->query("Select p.razonsocial as nombrepersona, e.razonsocial as nombreempleado, t.descripcion as tipopafo, r.* from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona inner join caja.tipopagos t on r.codtipopago = t.codtipopago  where r.estado = 1 offset ".$offset." limit ".$limit)->result_array();
+            $total = $this->db->query("select count(*) as total from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%')) and p.estado=1")->result_array();
 
             $paginas = floor($total[0]["total"] / $limit);
             if ( ($total[0]["total"] % $limit)!=0 ) {
@@ -51,8 +47,9 @@ inner join public.personas e on r.codempleado = e.codpersona where (UPPER(p.razo
             if (isset($_SESSION["netix_usuario"])) {
                 $empleados = $this->db->query("select persona.codpersona, persona.razonsocial from public.personas as persona inner join public.empleados as empleado on(persona.codpersona=empleado.codpersona) where empleado.estado=1")->result_array();
                 $area = $this->db->query("select a.codarea, a.descripcion from public.areas a where a.estado =1")->result_array();
+                $pago =  $this->db->query("select t.*from caja.tipopagos t where t.estado =1")->result_array();
                 //$cargos = $this->db->query("select * from public.cargos where estado=1")->result_array();
-                $this->load->view("atencionCliente/recepcion/nuevo",compact("empleados","area"));
+                $this->load->view("atencionCliente/recepcion/nuevo",compact("empleados","area","pago"));
             }else{
                 $this->load->view("netix/505");
             }
