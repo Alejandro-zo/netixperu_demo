@@ -1,8 +1,8 @@
 <div id="netix_form">
 	<form id="formulario" class="form-horizontal" v-on:submit.prevent="netix_guardar()">
-		<!-- ES PARA HACER EL REGISTRO DEL CODIGO-->
+		<!-- ES PARA HACER EL REGISTRO DEL CODIGO
 		<input type="hidden" name="codregistro" v-model="campos.codregistro">
-		<input type="hidden" name="codsociotipo" v-model="campos.codsociotipo">
+		<input type="hidden" name="codsociotipo" v-model="campos.codsociotipo">-->
 
 		<!--DATOS DEL EMPLEADO QUE ATIENDE-->
 	    <div class="row form-group">
@@ -100,6 +100,7 @@
 	        <div class="col-md-6">
 	        	<label >FECHA DE RECEPCIÓN</label>
 	            <input type="date" class="form-control input-sm datepicker" id="fechadesde" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+
 	        </div>
 	    </div>
 
@@ -143,10 +144,15 @@
 
 		<div class="ln_solid"></div>
 		<div class="form-group" align="center">
-			<button type="submit" class="btn btn-success" v-bind:disabled="estado==1"> <i class="fa fa-save"></i> GUARDAR </button>
-			<button type="button" class="btn btn-danger" v-on:click="netix_cerrar()"> <i class="fa fa-circle-o"></i> CERRAR</button>
+			<button type="submit" class="btn btn-success" v-bind:disabled="estado==1"><i class="fa fa-save"></i> GUARDAR </button>
+			<button type="button" class="btn btn-danger" v-on:click="netix_cerrar()"><i class="fa fa-circle-o"></i> CERRAR</button>
 		</div>
 	</form>
 </div>
 
+
+
+<script> var campos = {codempleado:"", coddocumentotipo:"", documento:"", nombrepersona:"", direccion: "",email: "",telefono: "",departamento: "",provincia: "",codubigeo: "",nombreempleado:"", producto:"",marca: "",modelo: "",fecharecepcion: "",descripcion:"",tipopago: ""}; </script>
 <script src="<?php echo base_url();?>netix/netix_personas.js"></script>
+
+<script> $(".datepicker").datetimepicker({format: 'YYYY-MM-DD',ignoreReadonly: true}).attr("readonly","true"); </script>
