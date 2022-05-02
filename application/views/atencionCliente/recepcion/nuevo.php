@@ -71,21 +71,7 @@
 	        </div>
 	    </div>
 	    <div class="row form-group">
-	        <div class="col-md-6">
-	            <label>DISTRITO</label>
-	            <select class="form-control" name="codubigeo" v-model="campos.codubigeo" id="codubigeo" required>
-	                <option value="">SELECCIONE</option>
-	            </select>
-	        </div>
-	        <div class="col-md-6">
-	            <label>PROVINCIA</label>
-	            <select class="form-control" name="provincia" v-model="campos.provincia" id="provincia" required v-on:change="netix_distritos()">
-	                <option value="">SELECCIONE</option>
-	            </select>
-	        </div>
-	    </div>	    	    	    
-	    <div class="row form-group"> 
-            <div class="col-md-6">
+	    	    <div class="col-md-6">
 	            <label>DEPARTAMENTO</label>
 	            <select class="form-control" name="departamento" v-model="campos.departamento" required v-on:change="netix_provincias()">
 	                <option value="">SELECCIONE</option>
@@ -96,6 +82,22 @@
 	                ?>
 	            </select>
 	        </div>
+
+	        <div class="col-md-6">
+	            <label>PROVINCIA</label>
+	            <select class="form-control" name="provincia" v-model="campos.provincia" id="provincia" required v-on:change="netix_distritos()">
+	                <option value="">SELECCIONE</option>
+	            </select>
+	        </div>
+	    </div>	    	    	    
+	    <div class="row form-group"> 
+	    		<div class="col-md-6">
+	            <label>DISTRITO</label>
+	            <select class="form-control" name="codubigeo" v-model="campos.codubigeo" id="codubigeo" required>
+	                <option value="">SELECCIONE</option>
+	            </select>
+	        </div>
+
 
 	        <div class="col-md-6">
 	        	<label >FECHA DE RECEPCIÓN</label>
