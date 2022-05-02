@@ -50,8 +50,9 @@ class Recepcion extends CI_Controller{
                 $pago =  $this->db->query("select t.*from caja.tipopagos t where t.estado =1")->result_array();
                 $tipodocumentos = $this->db->query("select *from public.documentotipos where estado=1")->result_array();
                 $marca= $this->db->query(" select * from almacen.marcas m where m.estado =1")->result_array();
+                $departamentos = $this->db->query("select distinct(ubidepartamento), departamento from public.ubigeo order by ubidepartamento")->result_array();
                 //$cargos = $this->db->query("select * from public.cargos where estado=1")->result_array();
-                $this->load->view("atencionCliente/recepcion/nuevo",compact("empleados","area","pago","tipodocumentos","marca"));
+                $this->load->view("atencionCliente/recepcion/nuevo",compact("empleados","area","pago","tipodocumentos","marca","departamentos"));
             }else{
                 $this->load->view("netix/505");
             }
