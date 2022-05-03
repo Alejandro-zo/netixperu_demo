@@ -22,7 +22,7 @@ class Recepcion extends CI_Controller{
             $this->request = json_decode(file_get_contents('php://input'));
             $limit = 8; $offset = $this->request->pagina * $limit - $limit;
 
-            $lista = $this->db->query("Select p.razonsocial as nombrepersona, e.razonsocial as nombreempleado, t.descripcion as tipopafo, r.* from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona inner join caja.tipopagos t on r.codtipopago = t.codtipopago  where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(p.documento) like UPPER('%".$this->request->buscar."%')) and r.estado = 1 offset ".$offset." limit ".$limit)->result_array();
+            $lista = $this->db->query("Select p.razonsocial as nombrepersona, e.razonsocial as nombreempleado, t.descripcion as tipopago, r.* from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona inner join caja.tipopagos t on r.codtipopago = t.codtipopago  where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(p.documento) like UPPER('%".$this->request->buscar."%')) and r.estado = 1 offset ".$offset." limit ".$limit)->result_array();
             $total = $this->db->query("select count(*) as total from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%')) and p.estado=1")->result_array();
 
             $paginas = floor($total[0]["total"] / $limit);
@@ -99,6 +99,15 @@ class Recepcion extends CI_Controller{
                 }
             }
             echo $estado;
+        }else{
+            $this->load->view("netix/404");
+        }
+    }
+    function editar(){
+        if ($this->input->is_ajax_request()) {
+            $this->request = json_decode(file_get_contents('php://input'));
+            $info = $this->db->query("Select p.razonsocial as razonsocial, e.razonsocial as nombreempleado, t.descripcion as coddocumentotipo, r.* from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona inner join caja.tipopagos t on r.codtipopago = t.codtipopago  where r.codrecepcion =".$this->request->codregistro)->result_array();
+            echo json_encode($info);
         }else{
             $this->load->view("netix/404");
         }
