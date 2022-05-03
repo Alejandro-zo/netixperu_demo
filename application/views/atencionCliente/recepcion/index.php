@@ -43,7 +43,7 @@
                             <th>TIPO</th>
                             <!--<th>COMPROBANTE</th>-->
                             <th width="100px">IMPORTE</th>
-                            <th>PAGO</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -63,10 +63,7 @@
                             <td>{{dato.tipopago}}</td>
                         <!--    <td>{{dato.seriecomprobante}} - {{dato.nrocomprobante}}</td>-->
                             <td> <b style="font-size:17px;">S/. {{dato.importe}}</b> </td>
-                            <td>
-                                <span class="label label-success" v-if="dato.condicionpago==1">AL CONTADO</span>
-                                <span class="label label-warning" v-else="dato.condicionpago==2">AL CREDITO</span>
-                            </td>
+                            
                         </tr>
                     </tbody>
                 </table>

@@ -71,7 +71,7 @@
 	        </div>
 	    </div>
 	    <div class="row form-group">
-	    	    <div class="col-md-6">
+	    	<div class="col-md-6">
 	            <label>DEPARTAMENTO</label>
 	            <select class="form-control" name="departamento" v-model="campos.departamento" required v-on:change="netix_provincias()">
 	                <option value="">SELECCIONE</option>
@@ -135,14 +135,19 @@
             </div>
         </div>
 
-        <!--
         <div class="row form-group">
             <div class="col-xs-12">
-                <label>OBSERVACIONES</label>
-                <input type="text" style="height:50px;" class="form-control" name="observacion" v-model="#" placeholder="Observación..." autocomplete="off">
+                <label>TIPO PAGO</label>
+                <select class="form-control" name="codtipopago" v-model="campos.codtipopago" required>
+                    <option value="">SELECCIONE</option>
+                    <?php
+                    foreach ($pago as $key => $value) { ?>
+                        <option value="<?php echo $value['codtipopago'];?>"><?php echo $value["descripcion"];?></option>
+                    <?php }
+                    ?>
+                </select>
             </div>
         </div>
-		-->
 
 		<div class="ln_solid"></div>
 		<div class="form-group" align="center">
