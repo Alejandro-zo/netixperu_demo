@@ -62,41 +62,17 @@ class Recepcion extends CI_Controller{
     }
     function guardar(){
         if ($this->input->is_ajax_request()) {
-            $campos = ["codempleado","documento","razonsocial","direccion","email","telefono","sexo"];
-            $campos_1 = ["codpersona","codarea","codcargo","codsucursal","sueldo"];
+            $campos = ["codpersona","codempleado","codtipopago","importe","producto","marca","modelo","fecharecepcion","descripcion"];
             $this->request = json_decode(file_get_contents('php://input'));
-            $valores = [$this->request->coddocumentotipo,$this->request->documento,$this->request->razonsocial,$this->request->direccion,$this->request->email,$this->request->telefono,$this->request->sexo];
+            $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'");
+            $valores = [$codpersona,$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecharecepcion,$this->request->descripcion];
+
 
             if($this->request->codregistro=="") {
-                $existe =$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
-                if (count($existe)>0) {
-                    $empleado = $this->db->query("select codpersona from public.empleados where codpersona=".$existe[0]["codpersona"])->result_array();
-                    if (count($empleado) > 0) {
-                        echo "e"; exit();
-                    }else{
-                        $codempleado = $existe[0]["codpersona"];
-                    }
-                }else{
-                    $codempleado = $this->Netix_model->netix_guardar("public.personas", $campos, $valores, "true");
-                }
+                $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
 
-                $valores_1 = [$codempleado,$this->request->codarea,$this->request->codcargo,$this->request->codsucursal,$this->request->sueldo];
-                $estado = $this->Netix_model->netix_guardar("public.empleados", $campos_1, $valores_1);
             }else{
-                $existe = $this->db->query("select codpersona,documento from public.personas where documento='".$this->request->documento."'")->result_array();
-                $codempleado = $this->request->codregistro;
-                if (count($existe)>0) {
-                    $codempleado = $existe[0]["codpersona"];
-                }
-                $estado = $this->Netix_model->netix_editar("public.personas", $campos, $valores, "codpersona", $codempleado);
-
-                $valores_1 = [$this->request->codregistro,$this->request->codarea,$this->request->codcargo,$this->request->codsucursal,$this->request->sueldo];
-                $existe = $this->db->query("select codpersona from public.empleados where codpersona=".$this->request->codregistro)->result_array();
-                if (count($existe)==0) {
-                    $estado = $this->Netix_model->netix_guardar("public.empleados", $campos_1, $valores_1);
-                }else{
-                    $estado = $this->Netix_model->netix_editar("public.empleados", $campos_1, $valores_1, "codpersona",$this->request->codregistro);
-                }
+                $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
             }
             echo $estado;
         }else{

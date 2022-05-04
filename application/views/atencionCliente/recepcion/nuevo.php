@@ -1,8 +1,6 @@
 <div id="netix_form">
 	<form id="formulario" class="form-horizontal" v-on:submit.prevent="netix_guardar()">
-		<!-- ES PARA HACER EL REGISTRO DEL CODIGO
 		<input type="hidden" name="codregistro" v-model="campos.codregistro">
-		<input type="hidden" name="codsociotipo" v-model="campos.codsociotipo">-->
 
 		<!--DATOS DEL EMPLEADO QUE ATIENDE-->
 	    <div class="row form-group">
@@ -101,7 +99,7 @@
 
 	        <div class="col-md-6">
 	        	<label >FECHA DE RECEPCIÓN</label>
-	            <input type="date" class="form-control input-sm datepicker" id="fechadesde" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+	            <input type="date" class="form-control input-sm datepicker" id="fechadesde"  name="fecharecepcion" v-model="campos.fecharecepcion" value="<?php echo date('Y-m-d');?>" autocomplete="off">
 
 	        </div>
 	    </div>
@@ -114,29 +112,33 @@
 
             <div class="col-md-4">
 	            <label>PRODUCTO</label>
-	            <input type="text" class="form-control" name="descripcion" v-model="campos.telefono" placeholder="Producto..." autocomplete="off">
+	            <input type="text" class="form-control" name="descripcion" v-model="campos.producto" placeholder="Producto..." autocomplete="off">
 	        </div>
 
 	        <div class="col-md-4">
 	            <label>MARCA</label>
-	            <input type="text" class="form-control" name="marca" v-model="campos.telefono" placeholder="Marca..." autocomplete="off">
+	            <input type="text" class="form-control" name="marca" v-model="campos.marca" placeholder="Marca..." autocomplete="off">
 	        </div>
 
 	        <div class="col-md-4">
 	            <label>MODELO</label>
-	            <input type="text" class="form-control" name="modelo" v-model="campos.telefono" placeholder="Modelo..." autocomplete="off">
+	            <input type="text" class="form-control" name="modelo" v-model="campos.modelo" placeholder="Modelo..." autocomplete="off">
 	        </div>
         </div>
 
 		<div class="row form-group">
             <div class="col-xs-12">
                 <label>DESCRIPCIÓN DEL PROBLEMA</label>
-                <input type="text" style="height:50px;" class="form-control" name="descripcion" v-model="campos.telefono" placeholder="Problema..." autocomplete="off">
+                <input type="text" style="height:50px;" class="form-control" name="descripcion" v-model="campos.descripcion" placeholder="Problema..." autocomplete="off">
             </div>
         </div>
 
         <div class="row form-group">
-            <div class="col-xs-12">
+            <div class="col-md-4">
+                <label>Importe</label>
+                <input type="number" min="0" class="form-control number " name="importe" v-model="campos.importe" placeholder="S/. 0.00" autocomplete="off">
+            </div>
+            <div class="col-md-4 col-xs-6">
                 <label>TIPO PAGO</label>
                 <select class="form-control" name="codtipopago" v-model="campos.codtipopago" required>
                     <option value="">SELECCIONE</option>
@@ -159,7 +161,8 @@
 
 
 
-<script> var campos = {codempleado:"", coddocumentotipo:"", documento:"", nombrepersona:"", direccion: "",email: "",telefono: "",departamento: "",provincia: "",codubigeo: "",nombreempleado:"", producto:"",marca: "",modelo: "",fecharecepcion: "",descripcion:"",tipopago: ""}; </script>
-<script src="<?php echo base_url();?>netix/netix_personas.js"></script>
+<script> var campos = {codregistro:"",codempleado:"", coddocumentotipo:"", documento:"", nombrepersona:"", direccion: "",email: "",telefono: "",departamento: "",provincia: "",codubigeo: "",nombreempleado:"", producto:"",marca: "",modelo: "",fecharecepcion: "",descripcion:"",codtipopago:"",importe:""}; </script>
+<script src="<?php echo base_url();?>netix/netix_recepcion.js"></script>
+
 
 <script> $(".datepicker").datetimepicker({format: 'YYYY-MM-DD',ignoreReadonly: true}).attr("readonly","true"); </script>
