@@ -64,15 +64,16 @@ class Recepcion extends CI_Controller{
         if ($this->input->is_ajax_request()) {
             $campos = ["codpersona","codempleado","codtipopago","importe","producto","marca","modelo","fecharecepcion","descripcion"];
             $this->request = json_decode(file_get_contents('php://input'));
-            $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'");
-            $valores = [$codpersona,$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecharecepcion,$this->request->descripcion];
+            $ff=$this->request->codregistro;
+            $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
+            $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fechakardex,$this->request->descripcion];
 
 
             if($this->request->codregistro=="") {
-                $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
+                $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores,"true");
 
             }else{
-                $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
+               // $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
             }
             echo $estado;
         }else{
