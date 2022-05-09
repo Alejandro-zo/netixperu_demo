@@ -9,21 +9,53 @@ var netix_recepcion = new Vue({
 			this.$http.post(url+netix_controller+"/guardar", this.campos).then(function(data){
 				if (data.body==1) {
 					if (this.campos.codregistro=="") {
-						netix_sistema.netix_alerta("GUARDADO CORRECTAMENTE", "UN NUEVO REGISTRO EN EL SISTEMA","success");
+						netix_sistema.netix_alerta("GUARDADO CORRECTAMENTE P", "UN NUEVO REGISTRO EN EL SISTEMA","success");
 					}else{
-						netix_sistema.netix_alerta("EDITADO CORRECTAMENTE", "UN REGISTRO EDITADO EN EL SISTEMA","info");
+						netix_sistema.netix_alerta("EDITADO CORRECTAMENTE P", "UN REGISTRO EDITADO EN EL SISTEMA","info");
 					}
 				}else{
-					netix_sistema.netix_alerta("OCURRIO UN ERROR AL REGISTRAR", "NO SE PUEDE REGISTRAR","error");
+					netix_sistema.netix_alerta("OCURRIO UN ERROR AL REGISTRAR P", "NO SE PUEDE REGISTRAR","error");
 				}
 				netix_datos.netix_opcion(); this.netix_cerrar();
 			}, function(){
-				netix_sistema.netix_alerta("ESTAMOS TENIENDO PROBLEMAS", "ERROR DE RED","error");
+				netix_sistema.netix_alerta("ESTAMOS TENIENDO PROBLEMAS P", "ERROR DE RED","error");
 			});
 		},
+
+		netix_eliminar: function(){
+			if (this.registro==0) {
+				netix_sistema.netix_alerta("DEBE SELECCIONAR UN REGISTRO", "PARA ELIMINAR EN EL SISTEMA UN REGISTRO!!!","error");
+			}else{
+				swal({
+					title: "SEGURO ELIMINAR REGISTRO ?",
+					text: "USTED ESTA POR ELIMINAR UN REGISTRO",
+					icon: "warning",
+					dangerMode: true,
+					buttons: ["CANCELAR", "SI, ELIMINAR"],
+				}).then((willDelete) => {
+					if (willDelete) {
+						this.$http.post(url+netix_controller+"/eliminar",{"codregistro":this.registro}).then(function(data){
+							if (data.body==1) {
+								netix_sistema.netix_alerta("ELIMINADO CORRECTAMENTE", "UN REGISTRO ELIMINADO EN EL SISTEMA","success");
+							}else{
+								netix_sistema.netix_alerta("OCURRIO UN ERROR !!!", "SE PERDIÓ LA CONEXION !!! LO SENTIMOS","error");
+							}
+							this.netix_opcion();
+						}, function(){
+							netix_sistema.netix_alerta("ESTAMOS TENIENDO PROBLEMAS LO SENTIMOS", "ERROR DE RED","error");
+						});
+					}
+				});
+			}
+		},
+
+
+
+
 		netix_cerrar: function(){
 			$(".compose").slideToggle();
 		},
+
 		netix_consultar: function(){
 			if (this.campos.coddocumentotipo=="") {
 				netix_sistema.netix_noti("SELECCIONE TIPO DE DOCUMENTO","DEBE SELECCIONAR . . .","error");
@@ -32,11 +64,13 @@ var netix_recepcion = new Vue({
 
 			if (this.campos.coddocumentotipo==2) {
 				if (this.campos.documento.length!=8) {
+					netix_sistema.netix_noti("TIPO DE DOCUMENTO DNI","DEBE TENER 8 DÍGITOS . . .","warning");
 					this.$refs.documento.focus(); return false;
 				}
 			}
 			if (this.campos.coddocumentotipo==4) {
 				if (this.campos.documento.length!=11) {
+					netix_sistema.netix_noti("TIPO DE DOCUMENTO RUC","DEBE TENER 11 DÍGITOS . . .","warning");
 					this.$refs.documento.focus(); return false;
 				}
 			}
@@ -51,32 +85,38 @@ var netix_recepcion = new Vue({
 					this.campos.direccion = datos[0]["direccion"];
 					this.campos.email = datos[0]["email"];
 					this.campos.telefono = datos[0]["telefono"];
-					// this.campos.sexo = datos[0]["sexo"];
-					netix_sistema.netix_noti("DOCUMENTO EXISTE EN EL SISTEMA","DOCUMENTO YA REGISTRADO","warning");
 					$(".btn-consultar").empty().html("<i class='fa fa-search'></i>"); $(".btn-consultar").removeAttr("disabled");
-				}else{
+					netix_sistema.netix_noti("CLIENTE ENCONTRADO","","success");
+					$("#cliente").hide();
+				}
+				else{
 					if (this.campos.coddocumentotipo==2) {
-						/* this.$http.get(url+"web/netix_dni/"+this.campos.documento).then(function(data){
-							if(data.body.success==true){
-								if(data.body.source=="essalud"){
-									this.campos.razonsocial = data.body.result.ApellidoPaterno+" "+data.body.result.ApellidoMaterno+" "+data.body.result.Nombres;
-								}else{
-									if (data.body.source=="jne") {
-										this.campos.razonsocial = data.body.result.apellidoPaterno+" "+data.body.result.apellidoMaterno+" "+data.body.result.nombres;
-									}else{
-										this.campos.razonsocial = data.body.result.apellidos+" "+data.body.result.Nombres;
-									}
-								}
-								this.campos.direccion = "-";
-							}else{
-								netix_sistema.netix_noti("NO SE ENCONTRARON DATOS","DOCUMENTO NO EXISTE","error");
-							}
-							$(".btn-consultar").empty().html("<i class='fa fa-search'></i>"); $(".btn-consultar").removeAttr("disabled");
-						}); */
 						this.$http.get(url+"web/netix_dni/"+this.campos.documento).then(function(data){
 							if(data.body.persona){
 								this.campos.razonsocial = data.body.persona.razonSocial;
+								this.campos.nombrecomercial = data.body.persona.razonSocial;
 								this.campos.direccion = "-";
+								this.campos.direccion = "";
+								this.campos.email = "";
+								this.campos.telefono = "";
+								//netix_sistema.netix_alerta("Cliente no regitrado","¿Registar?","info");
+
+								swal({
+									title: "CLIENTE NO REGISTADO",
+									text: "'¿REGISTAR?'",
+									icon: "warning",
+									dangerMode: true,
+									buttons: ["CANCELAR", "SI, REGISTRAR"],
+								}).then((willDelete) => {
+									if (willDelete) {
+										this.campos.newCustomer=1;
+										$("#cliente").show();
+										this.$http.get(url+"almacen/extenciones/nuevo/"+tabla).then(function(data){
+											$("#extencion_modal").empty().html(data.body); $("#modal_extencion").modal("show");
+										});
+									}
+								});
+								$(".btn-consultar").empty().html("<i class='fa fa-search'></i>"); $(".btn-consultar").removeAttr("disabled");
 							}else{
 								netix_sistema.netix_noti("NO SE ENCONTRARON DATOS","DOCUMENTO NO EXISTE","error");
 								//this.noData();
@@ -100,9 +140,11 @@ var netix_recepcion = new Vue({
 								$(".btn-consultar").empty().html("<i class='fa fa-search'></i>"); $(".btn-consultar").removeAttr("disabled");
 							}); */
 							this.$http.get(url+"web/netix_ruc/"+this.campos.documento).then(function(data){
+
 								if(data.body.persona){
 									this.campos.razonsocial = data.body.persona.razonSocial;
 									this.campos.direccion = data.body.persona.direccion;
+									netix_sistema.netix_noti("Cliente no regitrado","¿Registar?","info");
 								}else{
 									netix_sistema.netix_noti("NO SE ENCONTRARON DATOS","DOCUMENTO NO EXISTE","error");
 									//this.noData();

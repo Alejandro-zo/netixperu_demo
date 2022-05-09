@@ -62,20 +62,43 @@ class Recepcion extends CI_Controller{
     }
     function guardar(){
         if ($this->input->is_ajax_request()) {
-            $campos = ["codpersona","codempleado","codtipopago","importe","producto","marca","modelo","fecharecepcion","descripcion"];
             $this->request = json_decode(file_get_contents('php://input'));
-            $ff=$this->request->codregistro;
-            $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
-            $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fechakardex,$this->request->descripcion];
+            $campos = ["codpersona","codempleado","codtipopago","importe","producto","marca","modelo","fecharecepcion","descripcion"];
+            $campos1 = ["coddocumentotipo","documento","razonsocial","nombrecomercial","direccion","email","telefono","codubigeo","convenio","estado"];
+            $valores1 = [$this->request->coddocumentotipo,$this->request->documento,$this->request->razonsocial,$this->request->nombrecomercial,$this->request->direccion,$this->request->email,$this->request->telefono,$this->request->codubigeo,1,1];
+            $newCustomer=$this->request->newCustomer;
 
 
-            if($this->request->codregistro=="") {
-                $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores,"true");
+            if ($this->request->codregistro == "") {
+                if ($newCustomer == 1) {
+                    $estado = $this->Netix_model->netix_guardar("public.personas", $campos1, $valores1);
 
-            }else{
-               // $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
+                    $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
+                    $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecha,$this->request->descripcion];
+
+                    $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
+
+                } else {
+                    $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
+                    $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecha,$this->request->descripcion];
+
+                    $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
+
+                }
+
+            } else {
+                $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
+                $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecha,$this->request->descripcion];
+
+
+                $estado = $this->Netix_model->netix_editar("public.recepcion", $campos, $valores, "codrecepcion", $this->request->codregistro);
+                // $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
             }
+
             echo $estado;
+
+
+
         }else{
             $this->load->view("netix/404");
         }
@@ -83,8 +106,28 @@ class Recepcion extends CI_Controller{
     function editar(){
         if ($this->input->is_ajax_request()) {
             $this->request = json_decode(file_get_contents('php://input'));
-            $info = $this->db->query("Select p.razonsocial as razonsocial, e.razonsocial as nombreempleado, t.descripcion as coddocumentotipo, r.* from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona inner join caja.tipopagos t on r.codtipopago = t.codtipopago  where r.codrecepcion =".$this->request->codregistro)->result_array();
+            $info = $this->db->query("
+                Select p.razonsocial as nombrepersona, d.coddocumentotipo, p.documento, r.codempleado, e.razonsocial, p.direccion, p.email, p.telefono, r.fecharecepcion, r.producto, r.marca, r.modelo, r.importe, r.codtipopago, r.descripcion, u.codubigeo, u.ubidepartamento, u.ubiprovincia, u.departamento, u.provincia, u.distrito, t.descripcion as tipopago           
+                from 
+                    public.recepcion r inner join public.personas p on r.codpersona = p.codpersona 
+                    inner join public.empleados emp on r.codempleado = emp.codpersona
+                    inner join public.personas e on r.codempleado = e.codpersona
+                    inner join public.documentotipos d on p.coddocumentotipo = d.coddocumentotipo  
+                    inner join caja.tipopagos t on r.codtipopago = t.codtipopago  
+                    inner join public.ubigeo u on p.codubigeo = u.codubigeo 
+
+                where r.codrecepcion =".$this->request->codregistro)->result_array();
             echo json_encode($info);
+        }else{
+            $this->load->view("netix/404");
+        }
+    }
+
+    function eliminar(){
+        if ($this->input->is_ajax_request()) {
+            $this->request = json_decode(file_get_contents('php://input'));
+            $estado = $this->Netix_model->netix_eliminar("public.recepcion", "codrecepcion", $this->request->codregistro);
+            echo $estado;
         }else{
             $this->load->view("netix/404");
         }
