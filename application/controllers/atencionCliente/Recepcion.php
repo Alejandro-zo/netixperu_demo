@@ -22,8 +22,8 @@ class Recepcion extends CI_Controller{
             $this->request = json_decode(file_get_contents('php://input'));
             $limit = 8; $offset = $this->request->pagina * $limit - $limit;
 
-            $lista = $this->db->query("Select p.razonsocial as nombrepersona, e.razonsocial as nombreempleado, t.descripcion as tipopago, r.* from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona inner join caja.tipopagos t on r.codtipopago = t.codtipopago  where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(p.documento) like UPPER('%".$this->request->buscar."%')) and r.estado = 1 offset ".$offset." limit ".$limit)->result_array();
-            $total = $this->db->query("select count(*) as total from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%')) and p.estado=1")->result_array();
+            $lista = $this->db->query("Select p.razonsocial as nombrepersona, e.razonsocial as nombreempleado, t.descripcion as tipopago, r.* from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona inner join caja.tipopagos t on r.codtipopago = t.codtipopago  where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(p.documento) like UPPER('%".$this->request->buscar."%')) and r.estado = 1  order by r.codrecepcion asc  offset ".$offset." limit ".$limit)->result_array();
+            $total = $this->db->query("select count(*) as total from public.recepcion r inner join public.personas p on r.codpersona = p.codpersona inner join public.personas e on r.codempleado = e.codpersona where (UPPER(p.razonsocial) like UPPER('%".$this->request->buscar."%') or UPPER(e.razonsocial) like UPPER('%".$this->request->buscar."%')) and r.estado=1")->result_array();
 
             $paginas = floor($total[0]["total"] / $limit);
             if ( ($total[0]["total"] % $limit)!=0 ) {
@@ -65,8 +65,10 @@ class Recepcion extends CI_Controller{
             $this->request = json_decode(file_get_contents('php://input'));
             $campos = ["codpersona","codempleado","codtipopago","importe","producto","marca","modelo","fecharecepcion","descripcion"];
             $campos1 = ["coddocumentotipo","documento","razonsocial","nombrecomercial","direccion","email","telefono","codubigeo","convenio","estado"];
-            $valores1 = [$this->request->coddocumentotipo,$this->request->documento,$this->request->razonsocial,$this->request->nombrecomercial,$this->request->direccion,$this->request->email,$this->request->telefono,$this->request->codubigeo,1,1];
+            $valores1 = [$this->request->coddocumentotipo,$this->request->documento,$this->request->nombrepersona,$this->request->nombrecomercial,$this->request->direccion,$this->request->email,$this->request->telefono,$this->request->codubigeo,1,1];
             $newCustomer=$this->request->newCustomer;
+
+            $ff =$this->request->codregistro;
 
 
             if ($this->request->codregistro == "") {
@@ -92,7 +94,7 @@ class Recepcion extends CI_Controller{
 
 
                 $estado = $this->Netix_model->netix_editar("public.recepcion", $campos, $valores, "codrecepcion", $this->request->codregistro);
-                // $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
+
             }
 
             echo $estado;
@@ -106,8 +108,9 @@ class Recepcion extends CI_Controller{
     function editar(){
         if ($this->input->is_ajax_request()) {
             $this->request = json_decode(file_get_contents('php://input'));
+
             $info = $this->db->query("
-                Select p.razonsocial as nombrepersona, d.coddocumentotipo, p.documento, r.codempleado, e.razonsocial, p.direccion, p.email, p.telefono, r.fecharecepcion, r.producto, r.marca, r.modelo, r.importe, r.codtipopago, r.descripcion, u.codubigeo, u.ubidepartamento, u.ubiprovincia, u.departamento, u.provincia, u.distrito, t.descripcion as tipopago           
+                Select r.codrecepcion as codregistro, p.razonsocial as nombrepersona, d.coddocumentotipo, p.documento, r.codempleado, e.razonsocial, p.direccion, p.email, p.telefono, r.fecharecepcion as fecha, r.producto, r.marca, r.modelo, r.importe, r.codtipopago, r.descripcion, u.codubigeo, u.ubidepartamento, u.ubiprovincia, u.departamento, u.provincia, u.distrito, t.descripcion as tipopago           
                 from 
                     public.recepcion r inner join public.personas p on r.codpersona = p.codpersona 
                     inner join public.empleados emp on r.codempleado = emp.codpersona

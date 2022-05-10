@@ -9,16 +9,16 @@ var netix_recepcion = new Vue({
 			this.$http.post(url+netix_controller+"/guardar", this.campos).then(function(data){
 				if (data.body==1) {
 					if (this.campos.codregistro=="") {
-						netix_sistema.netix_alerta("GUARDADO CORRECTAMENTE P", "UN NUEVO REGISTRO EN EL SISTEMA","success");
+						netix_sistema.netix_alerta("GUARDADO CORRECTAMENTE", "UN NUEVO REGISTRO EN EL SISTEMA","success");
 					}else{
-						netix_sistema.netix_alerta("EDITADO CORRECTAMENTE P", "UN REGISTRO EDITADO EN EL SISTEMA","info");
+						netix_sistema.netix_alerta("EDITADO CORRECTAMENTE", "UN REGISTRO EDITADO EN EL SISTEMA","info");
 					}
 				}else{
-					netix_sistema.netix_alerta("OCURRIO UN ERROR AL REGISTRAR P", "NO SE PUEDE REGISTRAR","error");
+					netix_sistema.netix_alerta("OCURRIO UN ERROR AL REGISTRAR", "NO SE PUEDE REGISTRAR","error");
 				}
 				netix_datos.netix_opcion(); this.netix_cerrar();
 			}, function(){
-				netix_sistema.netix_alerta("ESTAMOS TENIENDO PROBLEMAS P", "ERROR DE RED","error");
+				netix_sistema.netix_alerta("ESTAMOS TENIENDO PROBLEMAS", "ERROR DE RED","error");
 			});
 		},
 
@@ -80,7 +80,7 @@ var netix_recepcion = new Vue({
 			this.$http.get(url+"web/netix_buscarsocio/"+this.campos.documento).then(function(data){
 				if (data.body!="") {
 					var datos = eval(data.body);
-					this.campos.razonsocial = datos[0]["razonsocial"];
+					this.campos.nombrepersona = datos[0]["razonsocial"];
 					this.campos.nombrecomercial = datos[0]["nombrecomercial"];
 					this.campos.direccion = datos[0]["direccion"];
 					this.campos.email = datos[0]["email"];
@@ -93,7 +93,7 @@ var netix_recepcion = new Vue({
 					if (this.campos.coddocumentotipo==2) {
 						this.$http.get(url+"web/netix_dni/"+this.campos.documento).then(function(data){
 							if(data.body.persona){
-								this.campos.razonsocial = data.body.persona.razonSocial;
+								this.campos.nombrepersona = data.body.persona.razonSocial;
 								this.campos.nombrecomercial = data.body.persona.razonSocial;
 								this.campos.direccion = "-";
 								this.campos.direccion = "";

@@ -56,7 +56,7 @@
         <div class="row form-group">
             <div class="col-xs-12">
                 <label>NOMBRES COMPLETOS</label>
-                <input type="text" name="razonsocial" v-model.trim="campos.razonsocial" class="form-control" required
+                <input type="text" name="nombrepersona" v-model.trim="campos.nombrepersona" class="form-control" required
                        autocomplete="off" placeholder="Nombres completos . . ."/>
             </div>
         </div>
@@ -203,13 +203,13 @@
         departamento: "",
         provincia: "",
         codubigeo: "",
-        nombreempleado: "",
         producto: "",
         marca: "",
         modelo: "",
         fecha: "<?php echo $_SESSION["netix_fechaproceso"];?>",
         codtipopago: "",
         importe: "",
+        descripcion: "",
         newCustomer:0
     }; </script>
 <script src="<?php echo base_url(); ?>netix/netix_recepcion.js"></script>
