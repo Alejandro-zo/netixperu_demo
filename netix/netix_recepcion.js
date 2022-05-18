@@ -1,12 +1,13 @@
 var netix_recepcion = new Vue({
 	el: "#netix_form",
 	data: {
-		estado: 0, campos: campos
+		estado: 0, campos: campos, fecha:{fecha:""}
 	},
 	methods: {
 		netix_guardar: function(){
 			this.estado= 1;
-			this.$http.post(url+netix_controller+"/guardar", this.campos).then(function(data){
+			this.fecha.fecha = $("#fechacomprobante").val();
+			this.$http.post(url+netix_controller+"/guardar",{fecha:this.fecha, campos:this.campos}).then(function(data){
 				if (data.body==1) {
 					if (this.campos.codregistro=="") {
 						netix_sistema.netix_alerta("GUARDADO CORRECTAMENTE", "UN NUEVO REGISTRO EN EL SISTEMA","success");
@@ -50,15 +51,14 @@ var netix_recepcion = new Vue({
 		},
 
 
-
-
 		netix_cerrar: function(){
 			$(".compose").slideToggle();
 		},
 
 		netix_consultar: function(){
+			var err=$("#fechacomprobante").val();
 			if (this.campos.coddocumentotipo=="") {
-				netix_sistema.netix_noti("SELECCIONE TIPO DE DOCUMENTO","DEBE SELECCIONAR . . .","error");
+				netix_sistema.netix_noti(err,"DEBE SELECCIONAR . . .","error");
 				this.$refs.coddocumentotipo.focus(); return false;
 			}
 

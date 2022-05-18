@@ -32,7 +32,8 @@
 
             <div class="col-md-5 col-xs-12">
                 <label>TIPO DOCUMENTO</label>
-                <select class="form-control" name="coddocumentotipo" v-model="campos.coddocumentotipo" required
+                <select class="form-control" id="coddocumentotipo" name="coddocumentotipo"
+                        v-model="campos.coddocumentotipo" required
                         v-on:change="netix_tipodocumento()" ref="coddocumentotipo">
                     <option value="">SELECCIONE</option>
                     <?php
@@ -56,7 +57,8 @@
         <div class="row form-group">
             <div class="col-xs-12">
                 <label>NOMBRES COMPLETOS</label>
-                <input type="text" name="nombrepersona" v-model.trim="campos.nombrepersona" class="form-control" required
+                <input type="text" name="nombrepersona" v-model.trim="campos.nombrepersona" class="form-control"
+                       required
                        autocomplete="off" placeholder="Nombres completos . . ."/>
             </div>
         </div>
@@ -64,7 +66,8 @@
             <div class="row form-group">
                 <div class="col-xs-12">
                     <label>NOMBRE COMERCIAL</label>
-                    <input type="text" class="form-control" name="nombrecomercial" v-model="campos.nombrecomercial" placeholder="Nombre comercial" autocomplete="off">
+                    <input type="text" class="form-control" name="nombrecomercial" v-model="campos.nombrecomercial"
+                           placeholder="Nombre comercial" autocomplete="off">
                 </div>
             </div>
             <div class="row form-group">
@@ -133,7 +136,8 @@
 
             <div class="col-md-4">
                 <label>MARCA</label>
-                <input type="text" class="form-control" name="marca" v-model="campos.marca" placeholder="Marca..."
+                <input type="text" class="form-control" id="marca" name="marca" v-model="campos.marca"
+                       placeholder="Marca..."
                        autocomplete="off">
             </div>
 
@@ -172,8 +176,9 @@
 
             <div class="col-md-5">
                 <label>FECHA DE RECEPCIÓN</label>
-                <input type="text" class="form-control input-sm datepicker" id="fecha" v-model="campos.fecha"
-                       autocomplete="off">
+                <input type="text" class="form-control datepicker fechaRecepcion" name="fechacomprobante" id="fechacomprobante"
+                       autocomplete="off" v-on:blur="netix_tipocambio()" required
+                       value="<?php echo $_SESSION["netix_fechaproceso"]; ?>">
 
             </div>
         </div>
@@ -185,10 +190,11 @@
             <button type="button" class="btn btn-danger" v-on:click="netix_cerrar()"><i class="fa fa-circle-o"></i>
                 CERRAR
             </button>
+            <button type="button" id="btn">click
+            </button>
         </div>
     </form>
 </div>
-
 
 <script> var campos = {
         codregistro: "",
@@ -196,7 +202,7 @@
         coddocumentotipo: "",
         documento: "",
         nombrepersona: "",
-        nombrecomercial:"",
+        nombrecomercial: "",
         direccion: "",
         email: "",
         telefono: "",
@@ -206,15 +212,23 @@
         producto: "",
         marca: "",
         modelo: "",
-        fecha: "<?php echo $_SESSION["netix_fechaproceso"];?>",
+        fecha:"",
         codtipopago: "",
         importe: "",
         descripcion: "",
-        newCustomer:0
+        newCustomer: 0
     }; </script>
 <script src="<?php echo base_url(); ?>netix/netix_recepcion.js"></script>
+<script> $(".datepicker").datetimepicker({
+        format: 'YYYY-MM-DD',
+        ignoreReadonly: true
+    }).attr("readonly", "true"); </script>
 
 
 <script>
-    $(".datepicker").datetimepicker({format: 'YYYY-MM-DD', ignoreReadonly: true}).attr("readonly", "true");
+    $(document).ready(function () {
+        $("#btn").click(function () {
+            alert($("#fechacomprobante").val());
+        });
+    });
 </script>

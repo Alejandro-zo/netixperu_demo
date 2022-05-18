@@ -28,4 +28,6 @@
 
     <link href="<?php echo base_url();?>public/css/custom.min.css" rel="stylesheet">
     <link href="<?php echo base_url();?>public/css/netix.css" rel="stylesheet">
+
+    <link href="<?php echo base_url(); ?>public/css/jquery-ui.css">
 </head>

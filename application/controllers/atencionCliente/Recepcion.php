@@ -64,42 +64,37 @@ class Recepcion extends CI_Controller{
         if ($this->input->is_ajax_request()) {
             $this->request = json_decode(file_get_contents('php://input'));
             $campos = ["codpersona","codempleado","codtipopago","importe","producto","marca","modelo","fecharecepcion","descripcion"];
-            $campos1 = ["coddocumentotipo","documento","razonsocial","nombrecomercial","direccion","email","telefono","codubigeo","convenio","estado"];
-            $valores1 = [$this->request->coddocumentotipo,$this->request->documento,$this->request->nombrepersona,$this->request->nombrecomercial,$this->request->direccion,$this->request->email,$this->request->telefono,$this->request->codubigeo,1,1];
-            $newCustomer=$this->request->newCustomer;
 
-            $ff =$this->request->codregistro;
+            if ($this->request->campos->codregistro == "") {
+                if ($this->request->campos->newCustomer== 1) {
+                    $campos1 = ["coddocumentotipo","documento","razonsocial","nombrecomercial","direccion","email","telefono","codubigeo","convenio","estado"];
+                    $valores1 = [$this->request->campos->coddocumentotipo,$this->request->campos->documento,$this->request->campos->nombrepersona,$this->request->campos->nombrecomercial,$this->request->campos->direccion,$this->request->campos->email,$this->request->campos->telefono,$this->request->campos->codubigeo,1,1];
 
-
-            if ($this->request->codregistro == "") {
-                if ($newCustomer == 1) {
                     $estado = $this->Netix_model->netix_guardar("public.personas", $campos1, $valores1);
 
-                    $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
-                    $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecha,$this->request->descripcion];
+                    $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->campos->documento."'")->result_array();
+                    $valores = [$codpersona[0]["codpersona"],$this->request->campos->codempleado,$this->request->campos->codtipopago,$this->request->campos->importe,$this->request->campos->producto,$this->request->campos->marca,$this->request->campos->modelo,$this->request->fecha->fecha,$this->request->campos->descripcion];
 
                     $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
 
                 } else {
-                    $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
-                    $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecha,$this->request->descripcion];
+                    $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->campos->documento."'")->result_array();
+                    $valores = [$codpersona[0]["codpersona"],$this->request->campos->codempleado,$this->request->campos->codtipopago,$this->request->campos->importe,$this->request->campos->producto,$this->request->campos->marca,$this->request->campos->modelo,$this->request->fecha->fecha,$this->request->campos->descripcion];
 
                     $estado = $this->Netix_model->netix_guardar("public.recepcion", $campos, $valores);
 
                 }
 
             } else {
-                $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->documento."'")->result_array();
-                $valores = [$codpersona[0]["codpersona"],$this->request->codempleado,$this->request->codtipopago,$this->request->importe,$this->request->producto,$this->request->marca,$this->request->modelo,$this->request->fecha,$this->request->descripcion];
+                $codpersona=$this->db->query("select codpersona from public.personas where documento='".$this->request->campos->documento."'")->result_array();
+                $valores = [$codpersona[0]["codpersona"],$this->request->campos->codempleado,$this->request->campos->codtipopago,$this->request->campos->importe,$this->request->campos->producto,$this->request->campos->marca,$this->request->campos->modelo,$this->request->fecha->fecha,$this->request->campos->descripcion];
 
 
-                $estado = $this->Netix_model->netix_editar("public.recepcion", $campos, $valores, "codrecepcion", $this->request->codregistro);
+                $estado = $this->Netix_model->netix_editar("public.recepcion", $campos, $valores, "codrecepcion", $this->request->campos->codregistro);
 
             }
 
             echo $estado;
-
-
 
         }else{
             $this->load->view("netix/404");
@@ -131,6 +126,19 @@ class Recepcion extends CI_Controller{
             $this->request = json_decode(file_get_contents('php://input'));
             $estado = $this->Netix_model->netix_eliminar("public.recepcion", "codrecepcion", $this->request->codregistro);
             echo $estado;
+        }else{
+            $this->load->view("netix/404");
+        }
+    }
+
+
+    function prueba(){
+        if ($this->input->is_ajax_request()) {
+            if (isset($_SESSION["netix_usuario"])) {
+                $this->load->view("atencionCliente/recepcion/prueba");
+            }else{
+                $this->load->view("netix/505");
+            }
         }else{
             $this->load->view("netix/404");
         }
