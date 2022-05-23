@@ -131,17 +131,4 @@ class Recepcion extends CI_Controller{
         }
     }
 
-
-    function prueba(){
-        if ($this->input->is_ajax_request()) {
-            if (isset($_SESSION["netix_usuario"])) {
-                $this->load->view("atencionCliente/recepcion/prueba");
-            }else{
-                $this->load->view("netix/505");
-            }
-        }else{
-            $this->load->view("netix/404");
-        }
-    }
-
 }

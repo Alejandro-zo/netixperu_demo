@@ -190,8 +190,8 @@
             <button type="button" class="btn btn-danger" v-on:click="netix_cerrar()"><i class="fa fa-circle-o"></i>
                 CERRAR
             </button>
-            <button type="button" id="btn">click
-            </button>
+            <!--<button type="button" id="btn">click
+            </button>-->
         </div>
     </form>
 </div>
@@ -224,11 +224,11 @@
         ignoreReadonly: true
     }).attr("readonly", "true"); </script>
 
-
+<!--
 <script>
     $(document).ready(function () {
         $("#btn").click(function () {
             alert($("#fechacomprobante").val());
         });
     });
-</script>
+</script>-->

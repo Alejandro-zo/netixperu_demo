@@ -140,9 +140,19 @@ var netix_datos = new Vue({
 					netix_sistema.netix_alerta("ESTAMOS TENIENDO PROBLEMAS LO SENTIMOS", "ERROR DE RED","error"); netix_sistema.netix_fin();
 				});
 			}
+		},
+		netix_proforma:function (){
+			if (this.registro==0) {
+				netix_sistema.netix_alerta("DEBE SELECCIONAR UN REGISTRO", "PARA MOSTRAR PROFORMA!!!","error");
+			}
+			else{
+				window.open(url+"reportes/recepcionProforma/proforma?registro="+this.registro,"_blank");
+			}
+
 		}
 	},
 	created: function(){
 		this.netix_opcion(); netix_sistema.netix_fin();
 	}
+
 });

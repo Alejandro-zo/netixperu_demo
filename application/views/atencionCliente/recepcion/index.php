@@ -8,7 +8,7 @@
                 <button type="button" class="btn btn-success" v-on:click="netix_nuevo()"> <i class="fa fa-plus-square"></i> NUEVO </button>
                 <button type="button" class="btn btn-info" v-on:click="netix_editar()"> <i class="fa fa-edit"></i> EDITAR </button>
                 <button type="button" class="btn btn-danger" v-on:click="netix_eliminar()"> <i class="fa fa-trash-o"></i> ELIMINAR </button>
-                <button type="button" class="btn btn-warning" v-on:click="netix_prueba()"> <i class="fa fa-arrow"></i> PRUEBA </button>
+                <button type="button" class="btn btn-warning" v-on:click="netix_proforma()"> <i class="fa fa-arrow"></i> Reporte </button>
             </div>
             <div class="col-md-4 col-xs-12">
                 <input type="text" class="form-control" v-model="buscar" v-on:keyup="netix_buscar()" placeholder="BUSCAR REGISTRO . . .">
