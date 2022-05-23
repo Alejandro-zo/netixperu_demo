@@ -11,7 +11,7 @@ class Cajabancos extends CI_Controller {
 			$almacenes = $this->db->query("select *from almacen.almacenes where estado=1")->result_array();
 			$usuarios = $this->db->query("select *from seguridad.usuarios where estado=1")->result_array();
 
-			$this->load->view("reportes/cajabancos/index",compact("almacenes","lineas","marcas", "usuarios"));
+			$this->load->view("reportes/cajabancos/index",compact("almacenes","usuarios"));
 		}else{
 			$this->load->view("netix/404");
 		}

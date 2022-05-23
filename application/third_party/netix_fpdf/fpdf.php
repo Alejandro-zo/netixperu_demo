@@ -979,6 +979,8 @@ function SetXY($x, $y)
 
 function Output($dest='', $name='', $isUTF8=false)
 {
+	// add to fix the pdf (A)
+	ob_clean();
 	// Output PDF to some destination
 	$this->Close();
 	if(strlen($name)==1 && strlen($dest)!=1)
