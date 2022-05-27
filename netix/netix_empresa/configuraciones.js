@@ -5,9 +5,9 @@ var netix_datos = new Vue({
 		netix_consultar: function(){
 			$(".btn-consultar").empty().html("<i class='fa fa-spinner fa-spin'></i> CONSULTANDO"); $(".btn-consultar").attr("disabled","true");
 			this.$http.get(url+"web/netix_ruc/"+this.campos.documento).then(function(data){
-				if(data.body.success==true){
-					this.campos.razonsocial = data.body.result.RazonSocial;
-					this.campos.direccion = data.body.result.Direccion;
+				if(data.body.persona){
+					this.campos.razonsocial = data.body.persona.razonSocial;
+					this.campos.direccion = data.body.persona.direccion;
 				}else{
 					netix_sistema.netix_noti("NO SE ENCONTRARON DATOS","RUC NO EXISTE","error");
 				}
