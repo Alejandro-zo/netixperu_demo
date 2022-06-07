@@ -57,10 +57,36 @@
 		                <td align="left" class="InfoVer" colspan="3">CONDICION DE PAGO: AL CREDITO</td>
 		            </tr>
 		            <tr>
-		                <td align="left" class="InfoVer" colspan="3">
-		                    FECHA VENCIMIENTO: <?php echo $credito[0]["fechavencimiento"];?>
-		                </td>
+		               <!-- <td align="left" class="InfoVer" colspan="3">
+		                    FECHA VENCIMIENTO: <?php /*echo $credito[0]["fechavencimiento"];*/?>
+		                </td>-->
+                        <td align="center" class="InfoVer" colspan="1">Cuota </td>
+                        <td align="center" class="InfoVer" colspan="1">Fecha Vencimeinto</td>
+                        <td align="center" class="InfoVer" colspan="1">Importe</td>
 		            </tr>
+
+                    <?php 	foreach ($cuotas as $key => $value) {?>
+                        <tr>
+                            <td align="center" class="InfoVer" colspan="1">
+                                <?php
+                                    echo $cuotas[$key]["nrocuota"];
+                                ?>
+                            </td>
+                            <td align="center" class="InfoVer" colspan="1">
+                                <?php
+                                    echo $cuotas[$key]["fechavence"];
+                                ?>
+                            </td>
+                            <td align="center" class="InfoVer" colspan="1">
+                                <?php
+                                echo "S/".number_format($cuotas[$key]["importe"],2);
+                                ?>
+                            </td>
+                        </tr>
+                    <?php }?>
+
+
+
             	<?php }
             ?>
             <tr>
