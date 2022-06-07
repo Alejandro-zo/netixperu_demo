@@ -9,7 +9,7 @@ class Facturacion_model extends CI_Model {
     function netix_crearXML($codcomprobante,$codkardex){
         $empresa = $this->db->query("select p.documento,p.razonsocial,p.direccion, e.ubigeo, e.departamento, e.provincia, e.distrito from public.personas as p inner join public.empresas as e on(p.codpersona=e.codpersona) where e.codempresa=1")->result_array();
 
-        $info = $this->db->query("select k.seriecomprobante,k.nrocomprobante,k.fechacomprobante,k.valorventa,k.porcdescuento, k.descglobal, k.porcigv, k.igv, k.icbper ,k.importe, k.codmotivonota, k.codcomprobantetipo_ref, k.seriecomprobante_ref, k.nrocomprobante_ref, ks.nombre_xml, dt.oficial as coddocumento, p.documento, k.cliente,k.direccion,k.descripcion from kardex.kardex as k inner join sunat.kardexsunat as ks on(k.codkardex=ks.codkardex) inner join public.personas as p on(k.codpersona=p.codpersona) inner join public.documentotipos as dt on(p.coddocumentotipo=dt.coddocumentotipo) where k.codkardex=".$codkardex)->result_array();
+        $info = $this->db->query("select k.condicionpago, k.seriecomprobante,k.nrocomprobante,k.fechacomprobante,k.valorventa,k.porcdescuento, k.descglobal, k.porcigv, k.igv, k.icbper ,k.importe, k.codmotivonota, k.codcomprobantetipo_ref, k.seriecomprobante_ref, k.nrocomprobante_ref, ks.nombre_xml, dt.oficial as coddocumento, p.documento, k.cliente,k.direccion,k.descripcion from kardex.kardex as k inner join sunat.kardexsunat as ks on(k.codkardex=ks.codkardex) inner join public.personas as p on(k.codpersona=p.codpersona) inner join public.documentotipos as dt on(p.coddocumentotipo=dt.coddocumentotipo) where k.codkardex=".$codkardex)->result_array();
         $totales = $this->db->query("select (select coalesce(sum(valorventa),0) from kardex.kardexdetalle where codkardex=".$codkardex." and codafectacionigv='10') as gravado, (select coalesce(sum(subtotal),0) from kardex.kardexdetalle where codkardex=".$codkardex." and codafectacionigv='20') as exonerado, (select coalesce(sum(subtotal),0) from kardex.kardexdetalle where codkardex=".$codkardex." and codafectacionigv='30') as inafecto, (select coalesce(sum(preciorefunitario * cantidad),0) from kardex.kardexdetalle where codkardex=".$codkardex." and codafectacionigv='21') as gratuito")->result_array();
         $detalle = $this->db->query("select kd.*,p.descripcion as producto,u.oficial as unidad from kardex.kardexdetalle as kd inner join almacen.productos as p on(kd.codproducto=p.codproducto) inner join almacen.unidades as u on(kd.codunidad=u.codunidad) where kd.codkardex=".$codkardex." and kd.estado=1 order by kd.item asc")->result_array();
 
@@ -22,7 +22,9 @@ class Facturacion_model extends CI_Model {
 
         // 1: CREAMOS EL DOCUMENTO XML //
 
-        $xml = new DomDocument("1.0","ISO-8859-1"); $xml->standalone = false; $xml->preserveWhiteSpace = false;
+        $xml = new DomDocument("1.0","ISO-8859-1");
+        $xml->standalone = false;
+        $xml->preserveWhiteSpace = false;
 
         if($codcomprobante <> "07" && $codcomprobante <> "08"){
             $Invoice = $xml->createElement("Invoice"); $Invoice = $xml->appendChild($Invoice);
@@ -338,6 +340,35 @@ class Facturacion_model extends CI_Model {
             $cbc = $xml->createElement("cbc:PayableAmount",number_format($info[0]["importe"],2,".","") ); $cbc = $cac_total->appendChild($cbc);
                 $cbc->setAttribute("currencyID","PEN");
 
+
+            //FORMA DE PAGO
+
+            $cac_PaymentTerms = $xml->createElement("cac:PaymentTerms");$cac_PaymentTerms = $Invoice->appendChild($cac_PaymentTerms);
+            $cac = $xml->createElement("cbc:ID","FormaPago"); $cac = $cac_PaymentTerms->appendChild($cac);
+            $ff=$info[0]['condicionpago'];
+            if($info[0]['condicionpago']==1){
+                $cac = $xml->createElement("cbc:PaymentMeansID","Contado"); $cac = $cac_PaymentTerms->appendChild($cac);
+            }
+            if($info[0]['condicionpago']==2){
+                $credito = $this->db->query("select fechavencimiento from kardex.creditos where codkardex=".$codkardex)->result_array();
+                $cac = $xml->createElement("cbc:PaymentMeansID","Credito"); $cac = $cac_PaymentTerms->appendChild($cac);
+                $cbc = $xml-> createElement("cbc:Amount", number_format($info[0]["importe"],2,".","")); $cbc=$cac_PaymentTerms->appendChild($cbc);
+                $cbc->setAttribute("currencyID","PEN");
+                // cuotas
+                $cuotas =  $this->db->query("select cu.* from kardex.creditos c inner join kardex.cuotas cu on c.codcredito =cu.codcredito where c.codkardex =".$codkardex."order by cu.nrocuota asc ")->result_array();
+
+                foreach ($cuotas as $key=>$clave){
+                    $cac_PaymentTerms = $xml->createElement("cac:PaymentTerms");$cac_PaymentTerms = $Invoice->appendChild($cac_PaymentTerms);
+                    $cac = $xml->createElement("cbc:ID","FormaPago"); $cac = $cac_PaymentTerms->appendChild($cac);
+
+                    $cac = $xml->createElement("cbc:PaymentMeansID","Cuota00".$cuotas[$key]["nrocuota"]); $cac = $cac_PaymentTerms->appendChild($cac);
+                    $cbc = $xml-> createElement("cbc:Amount", number_format($cuotas[$key]["importe"],2,".","")); $cbc=$cac_PaymentTerms->appendChild($cbc);
+                    $cbc->setAttribute("currencyID","PEN");
+                    $cac = $xml->createElement("cbc:PaymentDueDate", $cuotas[$key]["fechavence"]); $cac = $cac_PaymentTerms->appendChild($cac);
+                }
+
+            }
+
             // 12: ITEMS DEL COMPROBANTE //
 
             foreach ($detalle as $key => $value) {
@@ -406,7 +437,7 @@ class Facturacion_model extends CI_Model {
 
                 // 12.4: SUBTOTALES DEL ITEM //
 
-                $cac_tot = $xml->createElement("cac:TaxTotal"); $cac_tot = $line->appendChild($cac_tot);
+                    $cac_tot = $xml->createElement("cac:TaxTotal"); $cac_tot = $line->appendChild($cac_tot);
                     $cbc = $xml->createElement("cbc:TaxAmount",number_format(($value["igv"] + $value["icbper"]),2,".","") ); $cbc = $cac_tot->appendChild($cbc);
                         $cbc->setAttribute("currencyID","PEN");
 

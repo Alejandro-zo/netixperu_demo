@@ -539,7 +539,8 @@ class Formato extends CI_Controller {
 
 			$vendedor = $this->db->query("select razonsocial from public.personas where codpersona=".$venta[0]["codempleado"])->result_array();
 			if ($venta[0]["condicionpago"]==2) {
-				$credito = $this->db->query("select fechavencimiento from kardex.creditos where codkardex=".$codkardex)->result_array();
+				$credito = $this->db->query("select fechavencimiento,codcredito from kardex.creditos where codkardex=".$codkardex)->result_array();
+				$cuotas = $this->db->query("select c.* from kardex.cuotas c where c.codcredito=".$credito[0]['codcredito']."order by c.nrocuota asc " )->result_array();
 			}else{
 				$credito = [];
 			}
@@ -571,7 +572,7 @@ class Formato extends CI_Controller {
 				$ticket = "ticket_20570793986";
 			}
 
-			$this->load->view("facturacion/formato/".$ticket,compact("empresa","sucursal","venta","totales","detalle","vendedor","credito","texto_importe"));
+			$this->load->view("facturacion/formato/".$ticket,compact("empresa","sucursal","venta","totales","detalle","vendedor","credito","texto_importe","cuotas"));
 		}else{
 			$this->load->view("netix/404");
 		}
