@@ -238,6 +238,49 @@ class Facturacion_model extends CI_Model {
                     $cbc = $xml->createElement("cbc:BaseAmount", $info[0]["det_impsubtotal"]); $cbc = $cac_global->appendChild($cbc);
             } */
 
+        //FORMA DE PAGO
+
+        $cac_PaymentTerms = $xml->createElement("cac:PaymentTerms");$cac_PaymentTerms = $Invoice->appendChild($cac_PaymentTerms);
+        $cac = $xml->createElement("cbc:ID","FormaPago"); $cac = $cac_PaymentTerms->appendChild($cac);
+
+        if($info[0]['condicionpago']==1){
+            $cac = $xml->createElement("cbc:PaymentMeansID","Contado"); $cac = $cac_PaymentTerms->appendChild($cac);
+        }
+        if($info[0]['condicionpago']==2){
+            $credito = $this->db->query("select fechavencimiento from kardex.creditos where codkardex=".$codkardex)->result_array();
+            $cac = $xml->createElement("cbc:PaymentMeansID","Credito"); $cac = $cac_PaymentTerms->appendChild($cac);
+            $cbc = $xml-> createElement("cbc:Amount", number_format($info[0]["importe"],2,".","")); $cbc=$cac_PaymentTerms->appendChild($cbc);
+            $cbc->setAttribute("currencyID","PEN");
+            // cuotas
+            $cuotas =  $this->db->query("select cu.* from kardex.creditos c inner join kardex.cuotas cu on c.codcredito =cu.codcredito where c.codkardex =".$codkardex."order by cu.nrocuota asc ")->result_array();
+
+            foreach ($cuotas as $key=>$clave){
+                $cac_PaymentTerms = $xml->createElement("cac:PaymentTerms");$cac_PaymentTerms = $Invoice->appendChild($cac_PaymentTerms);
+                $cac = $xml->createElement("cbc:ID","FormaPago"); $cac = $cac_PaymentTerms->appendChild($cac);
+                $variable=$cuotas[$key]["nrocuota"];
+                switch ($variable) {
+                    case ($variable<10):
+                        $cuota_no= "Cuota00";
+                        break;
+                    case ($variable>=10 and $variable<100):
+                        $cuota_no="Cuota0";
+                        break;
+                    case ($variable>=100):
+                        $cuota_no= "Cuota";
+                        break;
+                    default:
+                        // code...
+                        break;
+                }
+
+                $cac = $xml->createElement("cbc:PaymentMeansID",$cuota_no.$cuotas[$key]["nrocuota"]); $cac = $cac_PaymentTerms->appendChild($cac);
+                $cbc = $xml-> createElement("cbc:Amount", number_format($cuotas[$key]["importe"],2,".","")); $cbc=$cac_PaymentTerms->appendChild($cbc);
+                $cbc->setAttribute("currencyID","PEN");
+                $cac = $xml->createElement("cbc:PaymentDueDate", $cuotas[$key]["fechavence"]); $cac = $cac_PaymentTerms->appendChild($cac);
+            }
+
+        }
+
             // 10: SUBTOTALES DEL COMPROBANTE (IGV + IVAP + ICBPER + OTROS) //
 
             $cac_total = $xml->createElement("cac:TaxTotal"); $cac_total = $Invoice->appendChild($cac_total);
@@ -340,34 +383,6 @@ class Facturacion_model extends CI_Model {
             $cbc = $xml->createElement("cbc:PayableAmount",number_format($info[0]["importe"],2,".","") ); $cbc = $cac_total->appendChild($cbc);
                 $cbc->setAttribute("currencyID","PEN");
 
-
-            //FORMA DE PAGO
-
-            $cac_PaymentTerms = $xml->createElement("cac:PaymentTerms");$cac_PaymentTerms = $Invoice->appendChild($cac_PaymentTerms);
-            $cac = $xml->createElement("cbc:ID","FormaPago"); $cac = $cac_PaymentTerms->appendChild($cac);
-            $ff=$info[0]['condicionpago'];
-            if($info[0]['condicionpago']==1){
-                $cac = $xml->createElement("cbc:PaymentMeansID","Contado"); $cac = $cac_PaymentTerms->appendChild($cac);
-            }
-            if($info[0]['condicionpago']==2){
-                $credito = $this->db->query("select fechavencimiento from kardex.creditos where codkardex=".$codkardex)->result_array();
-                $cac = $xml->createElement("cbc:PaymentMeansID","Credito"); $cac = $cac_PaymentTerms->appendChild($cac);
-                $cbc = $xml-> createElement("cbc:Amount", number_format($info[0]["importe"],2,".","")); $cbc=$cac_PaymentTerms->appendChild($cbc);
-                $cbc->setAttribute("currencyID","PEN");
-                // cuotas
-                $cuotas =  $this->db->query("select cu.* from kardex.creditos c inner join kardex.cuotas cu on c.codcredito =cu.codcredito where c.codkardex =".$codkardex."order by cu.nrocuota asc ")->result_array();
-
-                foreach ($cuotas as $key=>$clave){
-                    $cac_PaymentTerms = $xml->createElement("cac:PaymentTerms");$cac_PaymentTerms = $Invoice->appendChild($cac_PaymentTerms);
-                    $cac = $xml->createElement("cbc:ID","FormaPago"); $cac = $cac_PaymentTerms->appendChild($cac);
-
-                    $cac = $xml->createElement("cbc:PaymentMeansID","Cuota00".$cuotas[$key]["nrocuota"]); $cac = $cac_PaymentTerms->appendChild($cac);
-                    $cbc = $xml-> createElement("cbc:Amount", number_format($cuotas[$key]["importe"],2,".","")); $cbc=$cac_PaymentTerms->appendChild($cbc);
-                    $cbc->setAttribute("currencyID","PEN");
-                    $cac = $xml->createElement("cbc:PaymentDueDate", $cuotas[$key]["fechavence"]); $cac = $cac_PaymentTerms->appendChild($cac);
-                }
-
-            }
 
             // 12: ITEMS DEL COMPROBANTE //
 

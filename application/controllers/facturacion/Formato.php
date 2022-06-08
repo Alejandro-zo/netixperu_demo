@@ -543,6 +543,7 @@ class Formato extends CI_Controller {
 				$cuotas = $this->db->query("select c.* from kardex.cuotas c where c.codcredito=".$credito[0]['codcredito']."order by c.nrocuota asc " )->result_array();
 			}else{
 				$credito = [];
+                $cuotas=[];
 			}
 
 			$textoqr = $empresa[0]["razonsocial"]."|".$venta[0]["seriecomprobante"]."|".$venta[0]["nrocomprobante"]."|".number_format($venta[0]["igv"],2)."|".number_format($venta[0]["importe"],2)."|".$venta[0]["fechacomprobante"]."|".$venta[0]["documento"];
