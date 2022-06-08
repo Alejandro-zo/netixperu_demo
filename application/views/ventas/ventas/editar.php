@@ -24,7 +24,7 @@
 		<div class="row form-group">
 			<div class="col-xs-12">
 				<label> DIRECCION CLIENTE</label>
-				<input type="text" class="form-control" id="direccion" v-model.trim="campos.direccion" autocomplete="off" maxlength="250" placeholder="Direccion del cliente . . ." required>
+				<input type="text" class="form-control" id="direccion" v-model="campos.direccion" autocomplete="off" maxlength="250" placeholder="Direccion del cliente . . ." required>
 			</div>
 		</div>
 

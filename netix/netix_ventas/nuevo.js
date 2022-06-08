@@ -14,7 +14,7 @@ var netix_operacion = new Vue({
 			codafectacionigv:"", igv:0, valorventa:0, conicbper: 0, icbper:0, subtotal:0, descripcion:""
 		},
 		pagos:{
-			codtipopago_efectivo:1, monto_efectivo:0, vuelto_efectivo:0, codtipopago_tarjeta:0, monto_tarjeta:0, nrovoucher:""
+			codtipopago_efectivo:1, monto_efectivo:"", vuelto_efectivo:"", codtipopago_tarjeta:0, monto_tarjeta:0, nrovoucher:""
 		},
 		operaciones:{
 			gravadas:0.00, exoneradas:0.00, inafectas:0.00, gratuitas:0.00
@@ -498,6 +498,12 @@ var netix_operacion = new Vue({
 				this.campos.nro = data.body.campos[0].nrocomprobante;
 				this.campos.condicionpago = data.body.campos[0].condicionpago;
 				this.campos.descripcion = data.body.campos[0].descripcion;
+				this.campos.direccion = data.body.campos[0].direccion;
+				this.campos.cliente = data.body.campos[0].cliente;
+				this.campos.codempleado = data.body.campos[0].codempleado;
+
+				this.pagos.monto_efectivo = data.body.campos[0].monto_efectivo;
+				this.pagos.vuelto_efectivo = data.body.campos[0].vuelto_efectivo;
 
 				this.totales.flete = data.body.campos[0].flete;
 				this.totales.gastos = data.body.campos[0].gastos;
