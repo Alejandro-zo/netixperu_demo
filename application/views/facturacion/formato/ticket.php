@@ -84,10 +84,10 @@
                             </td>
                         </tr>
                     <?php }?>
-
-
-
             	<?php }
+                else {?> <tr>
+                    <td align="left" class="InfoVer" colspan="3">CONDICION DE PAGO: CONTADO</td>
+                </tr> <?php }
             ?>
             <tr>
                 <td colspan="3" valign="top">

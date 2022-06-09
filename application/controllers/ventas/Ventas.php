@@ -192,9 +192,13 @@ class Ventas extends CI_Controller {
 	function editar(){
 		if ($this->input->is_ajax_request()) {
 			$this->request = json_decode(file_get_contents('php://input'));
-			$kardex = $this->db->query("select *from kardex.kardex k where codkardex=".$this->request->codregistro)->result_array();
+			$kardex = $this->db->query("select k.*,  c.nrocuotas  from kardex.kardex k inner join kardex.creditos c on k.codkardex =c.codkardex  where k.codkardex=".$this->request->codregistro)->result_array();
 			$data["socio"] =$this->db->query("select codpersona,razonsocial from public.personas where codpersona=".$kardex[0]["codpersona"])->result_array();
 			$data["campos"] = $kardex;
+            if($kardex[0]["condicionpago"]==2){
+                $cuot = $this->db->query("select c.nrocuotas,cu.* from kardex.creditos c inner join kardex.cuotas cu on c.codcredito =cu.codcredito where c.codkardex =".$this->request->codregistro."order by cu.nrocuota asc")->result_array();
+                $data["cuot"] = $cuot;
+            }
 
 			$detalle = $this->db->query("select kd.codproducto,p.descripcion as producto,kd.codunidad,u.descripcion as unidad, 0 as control, 0 as stock, round(kd.cantidad,3) as cantidad, round(kd.preciobruto,3) as preciobrutosinigv, round(kd.preciobruto, 3) as preciobruto, round(kd.preciosinigv,3) as preciosinigv,round(kd.preciounitario,3) as precio, kd.preciorefunitario, round(kd.porcdescuento,2) as porcdescuento, round(kd.descuento,3) as descuento, kd.codafectacionigv,round(kd.igv) as igv, kd.conicbper, round(kd.icbper,1) as icbper, round(kd.valorventa,3) as valorventa, round(kd.subtotal,3) as subtotal, round(kd.subtotal,3) as subtotal_tem, kd.descripcion, p.calcular from kardex.kardexdetalle as kd inner join almacen.productos as p on(kd.codproducto=p.codproducto) inner join almacen.unidades as u on(kd.codunidad=u.codunidad) where kd.codkardex=".$this->request->codregistro." and kd.estado=1 order by kd.item")->result_array();
 			foreach ($detalle as $key => $value) {

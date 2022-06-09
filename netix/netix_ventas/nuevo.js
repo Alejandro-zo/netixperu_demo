@@ -22,6 +22,9 @@ var netix_operacion = new Vue({
 		totales:{
 			flete:0.00, gastos:0.00, bruto:0.00, descuentos:0.00, descglobal:0.00, valorventa:0.00, igv:0.00, isc:0.00, icbper:0.00, 
 			subtotal:0.00, importe:0.00
+		},
+		cuot:{
+			nrocuotas:"",fechavence:"",importe:"",interes:"",total:""
 		}
 	},
 	methods: {
@@ -382,7 +385,6 @@ var netix_operacion = new Vue({
 					suma_importe = Number(( parseFloat(suma_importe) + parseFloat(importe) ).toFixed(1));
 					suma_total = Number(( parseFloat(suma_total) + parseFloat(total) ).toFixed(1));
 				}
-
 				this.cuotas.push({
 					"nrocuota":i,"fechavence":fechavence,"importe":importe,"interes":interes,"total":total
 				});
@@ -490,7 +492,8 @@ var netix_operacion = new Vue({
 				this.campos.codkardex = data.body.campos[0].codkardex;
 				this.campos.retirar = data.body.campos[0].retirar;
 				this.campos.afectacaja = data.body.campos[0].afectacaja;
-				$("#fechacomprobante").val(data.body.campos[0].fechacomprobante); $("#fechakardex").val(data.body.campos[0].fechakardex);
+				$("#fechacomprobante").val(data.body.campos[0].fechacomprobante);
+				$("#fechakardex").val(data.body.campos[0].fechakardex);
 				this.campos.codmoneda = data.body.campos[0].codmoneda;
 				this.campos.tipocambio = data.body.campos[0].tipocambio;
 				this.campos.codcomprobantetipo = data.body.campos[0].codcomprobantetipo;
@@ -515,7 +518,8 @@ var netix_operacion = new Vue({
 				this.detalle = data.body.detalle; this.netix_totales();
 
 				this.correlativo = this.campos.nro;
-				this.netix_series(); netix_sistema.netix_fin();
+
+				this.campos.nrocuotas=data.body.cuot[0].nrocuotas;this.netix_series(); netix_sistema.netix_fin();
 				$("#codcomprobantetipo").attr("disabled", "disabled"); $("#seriecomprobante").attr("disabled", "disabled");
 			});
 		}
