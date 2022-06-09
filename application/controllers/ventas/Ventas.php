@@ -192,7 +192,7 @@ class Ventas extends CI_Controller {
 	function editar(){
 		if ($this->input->is_ajax_request()) {
 			$this->request = json_decode(file_get_contents('php://input'));
-			$kardex = $this->db->query("select k.*,  c.nrocuotas  from kardex.kardex k inner join kardex.creditos c on k.codkardex =c.codkardex  where k.codkardex=".$this->request->codregistro)->result_array();
+			$kardex = $this->db->query("select *from kardex.kardex k where codkardex=".$this->request->codregistro)->result_array();
 			$data["socio"] =$this->db->query("select codpersona,razonsocial from public.personas where codpersona=".$kardex[0]["codpersona"])->result_array();
 			$data["campos"] = $kardex;
             if($kardex[0]["condicionpago"]==2){

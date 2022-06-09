@@ -10,7 +10,7 @@ var netix_operacion = new Vue({
 			condicionpago:1, nrodias:30, nrocuotas:1, codcreditoconcepto:3, tasainteres:0, interes:0, totalcredito:0, porcdescuento:0.00, codpersona_convenio:1
 		},
 		item:{
-			producto:"", unidad:"", cantidad:0, preciobruto:0, descuento:0, porcdescuento:0, preciosinigv:0, precio:0, 
+			producto:"", unidad:"", cantidad:0, preciobruto:0, descuento:0, porcdescuento:0, preciosinigv:0, precio:0,
 			codafectacionigv:"", igv:0, valorventa:0, conicbper: 0, icbper:0, subtotal:0, descripcion:""
 		},
 		pagos:{
@@ -20,7 +20,7 @@ var netix_operacion = new Vue({
 			gravadas:0.00, exoneradas:0.00, inafectas:0.00, gratuitas:0.00
 		},
 		totales:{
-			flete:0.00, gastos:0.00, bruto:0.00, descuentos:0.00, descglobal:0.00, valorventa:0.00, igv:0.00, isc:0.00, icbper:0.00, 
+			flete:0.00, gastos:0.00, bruto:0.00, descuentos:0.00, descglobal:0.00, valorventa:0.00, igv:0.00, isc:0.00, icbper:0.00,
 			subtotal:0.00, importe:0.00
 		},
 		cuot:{
@@ -33,8 +33,8 @@ var netix_operacion = new Vue({
 
 		netix_venta: function(){
 			swal({
-				title: "SEGURO REGISTRAR NUEVA VENTA?",   
-				text: "LOS CAMPOS SE QUEDARAN VACIOS ", 
+				title: "SEGURO REGISTRAR NUEVA VENTA?",
+				text: "LOS CAMPOS SE QUEDARAN VACIOS ",
 				icon: "warning",
 				dangerMode: true,
 				buttons: ["CANCELAR", "SI, NUEVA VENTA"],
@@ -56,11 +56,11 @@ var netix_operacion = new Vue({
 			netix_sistema.netix_modulo();
 		},
 		netix_addcliente: function(){
-			$(".compose").slideToggle(); netix_sistema.netix_loader("netix_formulario",180); 
+			$(".compose").slideToggle(); netix_sistema.netix_loader("netix_formulario",180);
 			this.$http.post(url+"ventas/clientes/nuevo_1").then(function(data){
 				$("#netix_formulario").empty().html(data.body);
-			},function(){ 
-				netix_sistema.netix_error_operacion(); 
+			},function(){
+				netix_sistema.netix_error_operacion();
 			});
 		},
 		netix_infocliente: function(){
@@ -73,7 +73,7 @@ var netix_operacion = new Vue({
 				}
 				this.codtipodocumento = data.body[0].coddocumentotipo; this.campos.direccion = data.body[0].direccion;
 			});
-        },
+		},
 
 		/* DETALLE DE LA VENTA Y TOTALES */
 
@@ -93,30 +93,30 @@ var netix_operacion = new Vue({
 			}
 		},
 		netix_item: function(){
-			$(".compose").slideToggle(); $("#netix_tituloform").text("BUSCAR PRODUCTO"); 
-			netix_sistema.netix_loader("netix_formulario",180); 
+			$(".compose").slideToggle(); $("#netix_tituloform").text("BUSCAR PRODUCTO");
+			netix_sistema.netix_loader("netix_formulario",180);
 
 			this.$http.post(url+"almacen/productos/buscar/ventas").then(function(data){
 				$("#netix_formulario").empty().html(data.body);
 			},function(){
-				netix_sistema.netix_error(); 
+				netix_sistema.netix_error();
 			});
 		},
 		netix_additem: function(producto,precio){
 			var existe_item = [];
 			if ($("#itemrepetir").val()==0) {
 				var existe_item = this.detalle.filter(function(p){
-				    if(p.codproducto == producto.codproducto && p.codunidad == producto.codunidad ){
-				    	p.cantidad = p.cantidad + 1; return p;
-				    };
+					if(p.codproducto == producto.codproducto && p.codunidad == producto.codunidad ){
+						p.cantidad = p.cantidad + 1; return p;
+					};
 				});
 			}
 
-		    if (existe_item.length==0 || $("#itemrepetir").val()==1) {
-		    	producto.preciosinigv = producto.precio; producto.precio = precio; 
-		    	producto.valorventa = producto.precio; producto.subtotal = producto.precio;
-		    	
-		    	producto.afectacionigv = 20; producto.igv = 0; var porcentaje = 1;
+			if (existe_item.length==0 || $("#itemrepetir").val()==1) {
+				producto.preciosinigv = producto.precio; producto.precio = precio;
+				producto.valorventa = producto.precio; producto.subtotal = producto.precio;
+
+				producto.afectacionigv = 20; producto.igv = 0; var porcentaje = 1;
 				if (producto.afectoigvventa==1) {
 					var porcentaje = (1 + this.igvsunat) / 100;
 
@@ -125,7 +125,7 @@ var netix_operacion = new Vue({
 					producto.valorventa = Number((producto.precio / porcentaje).toFixed(2));
 					producto.igv = Number((producto.subtotal - producto.valorventa).toFixed(2));
 				}
-				
+
 				producto.icbper = 0; producto.isc = 0;
 				if (producto.afectoicbper==1) {
 					producto.icbper = Number((1 * this.icbpersunat).toFixed(2));;
@@ -144,13 +144,13 @@ var netix_operacion = new Vue({
 					preciobruto: producto.preciosinigv, preciosinigv: producto.preciosinigv, precio: producto.precio,
 					preciorefunitario: producto.precio, porcdescuento: 0, descuento: 0,
 					codafectacionigv: producto.afectacionigv, igv: producto.igv, conicbper: producto.afectoicbper, icbper: producto.icbper,
-					valorventa: producto.valorventa, subtotal:producto.subtotal, subtotal_tem:producto.subtotal, 
+					valorventa: producto.valorventa, subtotal:producto.subtotal, subtotal_tem:producto.subtotal,
 					descripcion:"", calcular: producto.calcular
 				});
 				this.netix_totales();
-		    }else{
-		    	this.netix_calcular(existe_item[0]);
-		    }
+			}else{
+				this.netix_calcular(existe_item[0]);
+			}
 		},
 		netix_deleteitem: function(index,producto){
 			this.detalle.splice(index,1); this.netix_totales();
@@ -161,8 +161,8 @@ var netix_operacion = new Vue({
 		netix_itemcalcular: function (item,tipoprecio) {
 			var porcentaje = 1;
 			if (item.codafectacionigv==21) {
-				item.preciobruto = 0; item.porcdescuento = 0; item.descuento = 0; item.preciosinigv = 0; item.precio = 0; 
-				item.igv = 0; item.valorventa = 0; item.subtotal = 0; 
+				item.preciobruto = 0; item.porcdescuento = 0; item.descuento = 0; item.preciosinigv = 0; item.precio = 0;
+				item.igv = 0; item.valorventa = 0; item.subtotal = 0;
 			}
 			if (item.codafectacionigv==10) {
 				var porcentaje = (1 + this.igvsunat) / 100;
@@ -179,12 +179,12 @@ var netix_operacion = new Vue({
 			if(tipoprecio==0){
 				item.precio = Number((item.preciobruto - item.descuento).toFixed(4));
 			}
-			
+
 			var descuento = item.descuento;
 			if (item.descuento=="") {
 				var descuento = 0;
 			}
-			
+
 			if (tipoprecio==1) {
 				item.precio = Number((item.preciosinigv * porcentaje).toFixed(4));
 				item.preciobruto = Number((item.precio + descuento).toFixed(4));
@@ -256,7 +256,7 @@ var netix_operacion = new Vue({
 		},
 		netix_totales: function () {
 			this.totales.bruto = 0.00; this.totales.descuentos = 0.00; this.totales.descglobal = 0.00;
-			this.operaciones.gravadas = 0.00; this.operaciones.inafectas = 0.00; 
+			this.operaciones.gravadas = 0.00; this.operaciones.inafectas = 0.00;
 			this.operaciones.exoneradas = 0.00; this.operaciones.gratuitas = 0.00;
 			this.totales.igv = 0.00; this.totales.isc = 0.00; this.totales.icbper = 0.00;
 			this.totales.valorventa = 0.00; this.totales.subtotal = 0.00; this.totales.importe = 0.00;
@@ -360,10 +360,10 @@ var netix_operacion = new Vue({
 			var interes = Number(( (this.campos.tasainteres*importe/100) ).toFixed(1));
 			var total = Number((importe + interes).toFixed(1));
 
-    		var fecha = new Date();
-    		this.totales.interes = Number(( (this.campos.tasainteres * this.totales.importe/100) ).toFixed(1));
+			var fecha = new Date();
+			this.totales.interes = Number(( (this.campos.tasainteres * this.totales.importe/100) ).toFixed(1));
 			this.campos.totalcredito = Number(( parseFloat(this.totales.importe) + parseFloat(this.totales.interes) ).toFixed(1));
-    		
+
 			this.cuotas = []; var suma_importe = 0; var suma_total = 0;
 			for (var i = 1; i <= this.campos.nrocuotas; i++) {
 				if (this.campos.nrodias=="") {
@@ -385,6 +385,7 @@ var netix_operacion = new Vue({
 					suma_importe = Number(( parseFloat(suma_importe) + parseFloat(importe) ).toFixed(1));
 					suma_total = Number(( parseFloat(suma_total) + parseFloat(total) ).toFixed(1));
 				}
+
 				this.cuotas.push({
 					"nrocuota":i,"fechavence":fechavence,"importe":importe,"interes":interes,"total":total
 				});
@@ -407,13 +408,13 @@ var netix_operacion = new Vue({
 				if (this.pagos.codtipopago_tarjeta==0) {
 					if (parseFloat(this.pagos.monto_efectivo) < parseFloat(this.totales.importe)) {
 						netix_sistema.netix_noti("EL IMPORTE DEBE SER MAYOR O IGUAL AL TOTAL DE LA VENTA","FALTAN S/. "+
-						Number(( parseFloat(this.totales.importe - this.pagos.monto_efectivo) ).toFixed(2)),"error"); return false;
+							Number(( parseFloat(this.totales.importe - this.pagos.monto_efectivo) ).toFixed(2)),"error"); return false;
 					}
 				}else{
 					var suma_importe = parseFloat(this.pagos.monto_efectivo) + parseFloat(this.pagos.monto_tarjeta);
 					if (parseFloat(suma_importe)!=parseFloat(this.totales.importe)) {
 						netix_sistema.netix_noti("LA SUMA DE LOS IMPORTES DEBE SER IGUAL AL TOTAL DE LA VENTA","DIFERENCIA S/. "+
-						Number(( parseFloat(this.totales.importe - suma_importe) ).toFixed(2)),"error"); return false;
+							Number(( parseFloat(this.totales.importe - suma_importe) ).toFixed(2)),"error"); return false;
 					}
 				}
 			}else{
@@ -422,7 +423,7 @@ var netix_operacion = new Vue({
 					return false;
 				}
 			}
-			
+
 			this.estado = 1; $("#modal_pago").modal("hide"); netix_sistema.netix_inicio_guardar("GUARDANDO VENTA . . .");
 			this.$http.post(url+netix_controller+"/guardar", {"campos":this.campos,"detalle":this.detalle,"cuotas":this.cuotas,"pagos":this.pagos,"totales":this.totales}).then(function(data){
 				if (data.body=="e") {
@@ -430,8 +431,8 @@ var netix_operacion = new Vue({
 				}else{
 					if (data.body.estado==1) {
 						swal({
-							title: "DESEA IMPRIMIR LA VENTA ?",   
-							text: "DESEA IMPRIMIR EL COMPROBANTE REGISTRADO", 
+							title: "DESEA IMPRIMIR LA VENTA ?",
+							text: "DESEA IMPRIMIR EL COMPROBANTE REGISTRADO",
 							icon: "warning",
 							dangerMode: true,
 							buttons: ["CANCELAR", "SI, IMPRIMIR"],
@@ -478,22 +479,21 @@ var netix_operacion = new Vue({
 					window.open(url+"facturacion/formato/ticket/"+codkardex,"_blank");
 				}
 			} */
-        },
+		},
 
-        netix_editar: function(){
+		netix_editar: function(){
 			this.titulo = "EDITAR VENTA 000"+netix_ventas.registro+" REGISTRADA"; this.campos.codkardex = netix_ventas.registro;
 			this.$http.post(url+netix_controller+"/editar",{"codregistro":netix_ventas.registro}).then(function(data){
 				var socio = eval(data.body.socio);
 				$("#codpersona").empty().html("<option value='"+socio[0]["codpersona"]+"'>"+socio[0]["razonsocial"]+"</option>");
 
-				$(".selectpicker").selectpicker("refresh"); $(".filter-option").text(socio[0]["razonsocial"]); 
+				$(".selectpicker").selectpicker("refresh"); $(".filter-option").text(socio[0]["razonsocial"]);
 				$("#codpersona").val(socio[0]["codpersona"]); this.campos.codpersona = socio[0]["codpersona"];
 
 				this.campos.codkardex = data.body.campos[0].codkardex;
 				this.campos.retirar = data.body.campos[0].retirar;
 				this.campos.afectacaja = data.body.campos[0].afectacaja;
-				$("#fechacomprobante").val(data.body.campos[0].fechacomprobante);
-				$("#fechakardex").val(data.body.campos[0].fechakardex);
+				$("#fechacomprobante").val(data.body.campos[0].fechacomprobante); $("#fechakardex").val(data.body.campos[0].fechakardex);
 				this.campos.codmoneda = data.body.campos[0].codmoneda;
 				this.campos.tipocambio = data.body.campos[0].tipocambio;
 				this.campos.codcomprobantetipo = data.body.campos[0].codcomprobantetipo;
@@ -518,8 +518,10 @@ var netix_operacion = new Vue({
 				this.detalle = data.body.detalle; this.netix_totales();
 
 				this.correlativo = this.campos.nro;
-
-				this.campos.nrocuotas=data.body.cuot[0].nrocuotas;this.netix_series(); netix_sistema.netix_fin();
+				if(data.body.campos[0].condicionpago==2){
+				this.campos.nrocuotas=data.body.cuot[0].nrocuotas;
+				}
+				this.netix_series(); netix_sistema.netix_fin();
 				$("#codcomprobantetipo").attr("disabled", "disabled"); $("#seriecomprobante").attr("disabled", "disabled");
 			});
 		}
@@ -535,8 +537,8 @@ var netix_operacion = new Vue({
 
 document.addEventListener("keyup", buscar_f11, false);
 function buscar_f11(e){
-    var keyCode = e.keyCode;
-    if(keyCode==122){
-    	netix_operacion.netix_item();
-    }
+	var keyCode = e.keyCode;
+	if(keyCode==122){
+		netix_operacion.netix_item();
+	}
 }

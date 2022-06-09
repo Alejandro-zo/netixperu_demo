@@ -61,7 +61,7 @@
 		                    FECHA VENCIMIENTO: <?php /*echo $credito[0]["fechavencimiento"];*/?>
 		                </td>-->
                         <td align="center" class="InfoVer" colspan="1">Cuota </td>
-                        <td align="center" class="InfoVer" colspan="1">Fecha Vencimeinto</td>
+                        <td align="center" class="InfoVer" colspan="1">Fecha Vencimiento</td>
                         <td align="center" class="InfoVer" colspan="1">Importe</td>
 		            </tr>
 
