@@ -62,10 +62,10 @@
 					</thead>
 					<tbody>
 						<tr v-for="dato in datos" v-bind:class="[dato.estado==0 ? 'netix_anulado':'']">
-							<td v-if="dato.ver==0">
+							<td v-if="dato.estado!=0">
 								<input type="radio"  class="netix_radio" name="netix_seleccionar" v-on:click="netix_seleccionar(dato.codmovimiento)">
 							</td>
-							<td v-if="dato.ver==1" style="height:25px;"></td>
+							<td v-if="dato.estado==0" style="height:25px;"></td>
 							<td>{{dato.fechamovimiento}}</td>
 							<td>{{dato.seriecomprobante+"-"+dato.nrocomprobante}}</td>
 							<td>{{dato.concepto}}</td>
