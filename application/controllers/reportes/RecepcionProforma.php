@@ -19,8 +19,11 @@ class RecepcionProforma extends CI_Controller {
             inner join public.personas e on r.codempleado = e.codpersona 
             inner join caja.tipopagos t on r.codtipopago = t.codtipopago
             where r.estado =1 and r.codrecepcion =".$registro)->result_array();
+        $empresa = $this->db->query("select documento,razonsocial from public.personas where codpersona=1")->result_array();
+        $sucursal = $this->db->query("select sucursal.*,empresa.publicidad,empresa.agradecimiento from public.sucursales as sucursal inner join public.empresas as empresa on(sucursal.codempresa=empresa.codempresa) where sucursal.codsucursal=".$_SESSION["netix_codsucursal"])->result_array();
 
-       $this->load->view("atencionCliente/recepcion/proforma",compact("recepcion","registro"));
+
+        $this->load->view("atencionCliente/recepcion/ticket",compact("empresa","sucursal","recepcion","registro"));
 
 
     }
