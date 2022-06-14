@@ -187,7 +187,7 @@
         <div class="form-group" align="center">
             <button type="submit" class="btn btn-success" v-bind:disabled="estado==1"><i class="fa fa-save"></i> GUARDAR
             </button>
-            <button type="button" class="btn btn-danger" v-on:click="netix_cerrar()"><i class="fa fa-circle-o"></i>
+            <button type="button" class="btn btn-danger" v-on:click="netix_cerrar()"><i class="fa fa-close"></i>
                 CERRAR
             </button>
         </div>
