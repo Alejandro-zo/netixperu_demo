@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Proforma</title>
+        <link rel="icon" href="<?php echo base_url();?>public/img/printer.png">
+    </head>
 	<!-- <link href="http://allfont.es/allfont.css?fonts=agency-fb" rel="stylesheet" type="text/css" /> -->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>public/css/ticket/ticket.css">
 	<script language="javascript">
