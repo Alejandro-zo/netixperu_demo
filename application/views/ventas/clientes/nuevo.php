@@ -89,8 +89,11 @@
 		    <div class="col-xs-6">
 		    	<label>TIPO SOCIO</label>
 		    	<select class="form-control" name="codsociotipo" v-model="campos.codsociotipo" required>
-		    		<option value="1">CLIENTE</option>
-		    		<option value="3">CLIENTE / PROVEEDOR</option>
+                    <?php
+                    foreach ($tiposocio as $key => $value) { ?>
+                        <option value="<?php echo $value['codsociotipo'];?>"><?php echo $value["descripcion"];?></option>
+                    <?php }
+                    ?>
 		    	</select>
 		    </div>
 		</div>

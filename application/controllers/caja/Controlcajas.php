@@ -277,6 +277,7 @@ class Controlcajas extends CI_Controller {
         $pdf->writeHTML($html, true, 0, true, 0);
 
         $nombre_archivo = utf8_decode($descarga);
+        ob_end_clean();
         $pdf->Output($nombre_archivo, 'I');
 	}
 

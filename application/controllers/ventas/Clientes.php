@@ -54,11 +54,13 @@ class Clientes extends CI_Controller {
 			if (isset($_SESSION["netix_usuario"])) {
 				$tipodocumentos = $this->db->query("select *from public.documentotipos where estado=1")->result_array();
 				$departamentos = $this->db->query("select distinct(ubidepartamento), departamento from public.ubigeo order by ubidepartamento")->result_array();
+				$tiposocio = $this->db->query("select *from public.sociotipos where estado=1")->result_array();
+
 
 				if ($_SESSION["netix_rubro"]==4) {
-					$this->load->view("ventas/clientes/nuevo_perfumeria",compact("tipodocumentos","departamentos"));
+					$this->load->view("ventas/clientes/nuevo_perfumeria",compact("tipodocumentos","departamentos","tiposocio"));
 				}else{
-					$this->load->view("ventas/clientes/nuevo",compact("tipodocumentos","departamentos"));
+					$this->load->view("ventas/clientes/nuevo",compact("tipodocumentos","departamentos","tiposocio"));
 				}
 			}else{
 				$this->load->view("netix/505");
